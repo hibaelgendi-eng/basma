@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بصمة — منصة ذكاء الاستدامة للمصانع</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --g900:#002318; --g800:#00321F; --g700:#004530; --g600:#005A3D; --g500:#007A52;
+  --g400:#009966; --g300:#2DC48A; --g200:#7DDCB4; --g100:#C0F0DA; --g50:#E8FAF2;
+  --m500:#0CB89A; --m400:#24D1B3; --m100:#C8F5EE; --m50:#E6FBF8;
+  --gold500:#C49A2A; --gold400:#D4AA3A; --gold100:#FDF3D8;
+  --ink950:#0A0F0D; --ink900:#111816; --ink700:#2D3630; --ink600:#445048;
+  --ink400:#6B7B73; --ink300:#8A9990; --ink200:#C4CEC8; --ink100:#E2E9E5; --ink50:#F4F7F5;
+  --ok-bg:#E8FAF2; --ok-border:#7DDCB4; --ok-txt:#005A3D;
+  --warn-bg:#FFFBEB; --warn-border:#F2C94C; --warn-txt:#92660F;
+  --red-bg:#FEF2F2; --red-border:#FCA5A5; --red-txt:#BE3529;
+  --page:#F2F6F4; --card:#FFFFFF;
+  --fm:'Cairo',sans-serif; --fmo:'IBM Plex Mono',monospace;
+  --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:18px; --r-2xl:24px; --r-full:9999px;
+  --sh-sm:0 1px 3px rgba(0,35,20,.05),0 1px 2px rgba(0,0,0,.02);
+  --sh-md:0 2px 12px rgba(0,35,20,.07),0 1px 3px rgba(0,0,0,.03);
+  --sh-lg:0 4px 24px rgba(0,35,20,.09),0 2px 6px rgba(0,0,0,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fm);background:var(--page);color:var(--ink900);direction:rtl;-webkit-font-smoothing:antialiased;min-height:100vh;}
+a,button{cursor:pointer;}
+.container{max-width:1240px;margin:0 auto;padding:0 32px;}
+
+/* ───── BUTTONS ───── */
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--fm);font-weight:600;border-radius:var(--r-full);border:1.5px solid transparent;cursor:pointer;white-space:nowrap;font-size:14px;padding:12px 26px;transition:all .12s;}
+.btn-primary{background:var(--g500);border-color:var(--g500);color:#fff;box-shadow:0 2px 10px rgba(0,90,61,.25);}
+.btn-primary:hover{background:var(--g400);}
+.btn-outline{background:transparent;border-color:var(--ink200);color:var(--ink700);}
+.btn-outline:hover{border-color:var(--g400);color:var(--g700);}
+.btn-light{background:#fff;border-color:#fff;color:var(--g700);}
+.btn-ghost-light{background:transparent;border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.9);}
+.btn-sm{font-size:13px;padding:9px 20px;}
+.btn:active{transform:scale(.97);}
+
+/* ───── NAVBAR (fixed) ───── */
+.navbar{position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--ink100);padding:0 32px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--g400),var(--m400));display:grid;place-items:center;font-size:18px;flex-shrink:0;}
+.nav-brand{font-size:17px;font-weight:700;color:var(--ink900);letter-spacing:-.01em;}
+.nav-links{display:flex;align-items:center;gap:4px;margin:0 auto;}
+.nav-link{padding:9px 15px;font-size:13px;font-weight:500;color:var(--ink600);border-radius:var(--r-md);transition:all .12s;border:none;background:none;font-family:var(--fm);}
+.nav-link:hover{background:var(--ink50);color:var(--ink900);}
+.nav-link.active{color:var(--g600);font-weight:700;background:var(--g50);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+
+/* ───── PAGES ───── */
+.page{display:none;}
+.page.active{display:block;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* ───── HERO ───── */
+.hero{padding:64px 0 0;background:linear-gradient(160deg,var(--g50) 0%,var(--page) 55%);}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:50px;align-items:center;padding-bottom:60px;}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;background:var(--g50);border:1px solid var(--g100);border-radius:var(--r-full);font-size:12px;font-weight:600;color:var(--g600);margin-bottom:22px;}
+.hero-h1{font-size:48px;font-weight:700;line-height:1.28;color:var(--ink950);letter-spacing:-.02em;margin-bottom:20px;}
+.hero-h1 .accent{color:var(--g500);}
+.hero-sub{font-size:16px;line-height:1.8;color:var(--ink400);margin-bottom:30px;max-width:480px;}
+.hero-ctas{display:flex;gap:12px;margin-bottom:32px;}
+.hero-trust{display:flex;align-items:center;gap:24px;}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink400);}
+.trust-dot{width:7px;height:7px;border-radius:50%;background:var(--g400);}
+
+.hero-visual{position:relative;height:440px;}
+.mockup-window{position:absolute;background:var(--card);border-radius:var(--r-xl);box-shadow:var(--sh-lg),0 0 0 1px rgba(0,0,0,.04);overflow:hidden;}
+.mockup-main{top:0;left:24px;right:0;width:88%;}
+.mockup-bar{height:38px;background:var(--ink50);border-bottom:1px solid var(--ink100);display:flex;align-items:center;gap:6px;padding:0 16px;}
+.mockup-dot{width:9px;height:9px;border-radius:50%;background:var(--ink200);}
+.mockup-body{padding:20px;}
+.float-card{position:absolute;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--sh-lg);border:1px solid var(--ink100);padding:14px 16px;}
+.float-card.score-card{top:34px;right:0;width:200px;background:linear-gradient(135deg,var(--g700),var(--g600));border:none;}
+.float-card.verify-card{bottom:84px;right:24px;width:220px;}
+.float-card.compare-card{bottom:-10px;left:0;width:280px;}
+
+/* ───── CHIPS / SCORE ───── */
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--r-full);border:1px solid;white-space:nowrap;}
+.chip-ok{background:var(--ok-bg);color:var(--ok-txt);border-color:var(--ok-border);}
+.chip-warn{background:var(--warn-bg);color:var(--warn-txt);border-color:var(--warn-border);}
+.chip-red{background:var(--red-bg);color:var(--red-txt);border-color:var(--red-border);}
+.score-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.score-inner{position:absolute;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.score-num{font-family:var(--fmo);font-weight:700;line-height:1;}
+.score-denom{font-size:11px;color:var(--ink400);}
+.verify-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r-full);font-size:11px;font-weight:600;color:var(--g700);}
+
+/* ───── SECTIONS ───── */
+.section{padding:72px 0;}
+.section-tight{padding:0 0 72px;}
+.section-head{text-align:center;max-width:680px;margin:0 auto 48px;}
+.section-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--g600);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
+.section-title{font-size:34px;font-weight:700;color:var(--ink950);letter-spacing:-.01em;line-height:1.3;margin-bottom:14px;}
+.section-sub{font-size:15px;color:var(--ink400);line-height:1.75;}
+
+/* ───── PROBLEM CARDS ───── */
+.problem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.problem-card{background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:28px 24px;box-shadow:0 1px 3px rgba(0,35,20,.05);transition:box-shadow .15s,transform .15s;}
+.problem-card:hover{box-shadow:0 4px 20px rgba(0,35,20,.09);transform:translateY(-2px);}
+.problem-num{font-family:var(--fmo);font-size:10px;font-weight:700;color:var(--g400);margin-bottom:18px;letter-spacing:.08em;}
+.problem-icon{width:48px;height:48px;border-radius:14px;background:var(--g50);border:1px solid var(--g100);display:grid;place-items:center;margin-bottom:18px;}
+.problem-icon svg{width:24px;height:24px;stroke:var(--g600);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.problem-title{font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:8px;letter-spacing:-.01em;}
+.problem-desc{font-size:13px;color:var(--ink500);line-height:1.75;}
+
+/* ───── JOURNEY ───── */
+.journey-wrap{position:relative;}
+.journey-line-fill{position:absolute;top:28px;right:6%;width:88%;height:2px;background:linear-gradient(90deg,var(--g500),var(--g300));}
+.journey-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;z-index:1;}
+.journey-step{display:flex;flex-direction:column;align-items:center;text-align:center;}
+.journey-circle{width:56px;height:56px;border-radius:50%;background:var(--card);border:2px solid var(--g300);display:grid;place-items:center;font-family:var(--fmo);font-size:16px;font-weight:700;color:var(--g600);margin-bottom:14px;box-shadow:var(--sh-sm);}
+.journey-title{font-size:13px;font-weight:700;color:var(--ink900);margin-bottom:5px;}
+.journey-desc{font-size:11px;color:var(--ink400);line-height:1.6;max-width:170px;}
+
+/* ───── SOLUTION CARDS ───── */
+.solution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.solution-card{border-radius:var(--r-2xl);padding:28px 24px;display:flex;flex-direction:column;box-shadow:var(--sh-md);cursor:pointer;transition:transform .15s;}
+.solution-card:hover{transform:translateY(-3px);}
+.solution-card.featured{background:linear-gradient(160deg,var(--g700),var(--g800));color:#fff;}
+.solution-card.regular{background:var(--card);border:1px solid var(--ink100);}
+.solution-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:18px;}
+.solution-card.featured .solution-icon{background:rgba(255,255,255,.12);}
+.solution-card.regular .solution-icon{background:var(--g50);}
+.solution-title{font-size:19px;font-weight:700;margin-bottom:5px;}
+.solution-card.regular .solution-title{color:var(--ink900);}
+.solution-sub{font-size:12px;margin-bottom:18px;}
+.solution-card.featured .solution-sub{color:rgba(255,255,255,.6);}
+.solution-card.regular .solution-sub{color:var(--ink400);}
+.solution-features{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;flex:1;}
+.solution-feature{display:flex;align-items:center;gap:9px;font-size:13px;}
+.sf-check{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10px;flex-shrink:0;}
+.solution-card.featured .sf-check{background:rgba(45,196,138,.2);color:var(--g300);}
+.solution-card.regular .sf-check{background:var(--g50);color:var(--g600);}
+.solution-card.featured .solution-feature{color:rgba(255,255,255,.85);}
+.solution-card.regular .solution-feature{color:var(--ink700);}
+
+/* ───── MARKETPLACE ───── */
+.marketplace-wrap{background:linear-gradient(160deg,var(--g900) 0%,var(--g800) 100%);border-radius:var(--r-2xl);padding:52px;position:relative;overflow:hidden;}
+.marketplace-wrap::before{content:'';position:absolute;top:-100px;left:-100px;width:300px;height:300px;background:radial-gradient(ellipse,rgba(45,196,138,.15) 0%,transparent 70%);}
+.mp-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:46px;align-items:center;position:relative;z-index:1;}
+.mp-title{font-size:30px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:14px;}
+.mp-desc{font-size:14px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:24px;}
+.esg-factory-card{background:var(--card);border-radius:var(--r-xl);padding:20px;box-shadow:var(--sh-lg);margin-bottom:14px;}
+.mp-compare{background:var(--card);border-radius:var(--r-xl);padding:18px;box-shadow:var(--sh-lg);}
+.mp-cmp-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--ink50);font-size:12px;}
+.mp-cmp-row:last-child{border-bottom:none;}
+.mp-cmp-vals{display:flex;gap:22px;}
+.mp-cmp-val{font-family:var(--fmo);font-weight:700;font-size:12px;min-width:60px;text-align:center;}
+
+/* ───── AI SECTION ───── */
+.ai-card{background:linear-gradient(135deg,#001A12,#003020);border-radius:var(--r-2xl);padding:30px;border:1px solid rgba(0,153,102,.2);position:relative;overflow:hidden;}
+.ai-card::before{content:'';position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(0,153,102,.18) 0%,transparent 70%);}
+.ai-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;padding:4px 10px;border-radius:4px;background:rgba(0,153,102,.2);color:var(--g300);border:1px solid rgba(0,153,102,.3);font-family:var(--fmo);letter-spacing:.06em;position:relative;z-index:1;}
+.ai-title{font-size:17px;font-weight:700;color:rgba(255,255,255,.92);margin:12px 0 8px;position:relative;z-index:1;}
+.ai-body{font-size:13px;color:rgba(255,255,255,.6);line-height:1.8;position:relative;z-index:1;}
+.ai-highlight{color:#6EE7B7;font-weight:700;}
+.ai-msg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-lg);padding:15px 17px;font-size:13px;line-height:1.8;color:rgba(255,255,255,.85);position:relative;z-index:1;}
+.ai-chart-bars{display:flex;align-items:flex-end;gap:6px;height:70px;margin:16px 0;position:relative;z-index:1;}
+.ai-bar{flex:1;border-radius:4px 4px 0 0;background:rgba(0,153,102,.25);}
+.ai-bar.highlight{background:linear-gradient(180deg,#6EE7B7,#2DC48A);}
+
+/* ───── TRUST FLOW ───── */
+.trust-flow{display:flex;align-items:center;justify-content:center;gap:0;margin:40px 0;}
+.trust-node{display:flex;flex-direction:column;align-items:center;text-align:center;width:160px;}
+.trust-node-icon{width:54px;height:54px;border-radius:14px;background:var(--card);border:1.5px solid var(--ink100);display:grid;place-items:center;font-size:22px;margin-bottom:12px;box-shadow:var(--sh-sm);}
+.trust-node.final .trust-node-icon{background:linear-gradient(135deg,var(--g500),var(--g400));border:none;color:#fff;}
+.trust-node-title{font-size:13px;font-weight:700;color:var(--ink900);}
+.trust-node-sub{font-size:10px;color:var(--ink400);margin-top:3px;}
+.trust-arrow{color:var(--g300);font-size:20px;flex-shrink:0;}
+
+/* ───── FINAL CTA ───── */
+.final-cta{background:linear-gradient(160deg,var(--g800) 0%,var(--g900) 100%);border-radius:var(--r-2xl);padding:64px;text-align:center;position:relative;overflow:hidden;}
+.final-cta::before{content:'';position:absolute;top:-100px;right:-100px;width:320px;height:320px;background:radial-gradient(ellipse,rgba(45,196,138,.15) 0%,transparent 70%);}
+.final-cta-title{font-size:36px;font-weight:700;color:#fff;margin-bottom:14px;position:relative;z-index:1;letter-spacing:-.01em;}
+.final-cta-sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:30px;position:relative;z-index:1;max-width:480px;margin-inline:auto;line-height:1.8;}
+.final-cta-btns{display:flex;gap:14px;justify-content:center;position:relative;z-index:1;}
+
+/* ───── FOOTER ───── */
+.site-footer{padding:48px 0 28px;border-top:1px solid var(--ink100);background:var(--card);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:32px;}
+.footer-brand-desc{font-size:13px;color:var(--ink400);line-height:1.8;margin-top:12px;max-width:280px;}
+.footer-col-title{font-size:11px;font-weight:700;color:var(--ink900);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;}
+.footer-link{font-size:13px;color:var(--ink400);margin-bottom:9px;cursor:pointer;border:none;background:none;font-family:var(--fm);display:block;text-align:right;padding:0;}
+.footer-link:hover{color:var(--g600);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--ink100);font-size:12px;color:var(--ink300);}
+
+/* ───── STATS ───── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.stat-box{background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:24px 18px;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.stat-num{font-family:var(--fmo);font-size:32px;font-weight:800;color:var(--g600);line-height:1;margin-bottom:6px;}
+.stat-label{font-size:12px;color:var(--ink400);}
+
+/* ───── FEATURE ROW ───── */
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+.feature-row.reverse .feature-visual{order:2;}
+.feature-row.reverse .feature-text{order:1;}
+.feature-step-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:var(--g50);border:1px solid var(--g200);font-family:var(--fmo);font-weight:700;font-size:14px;color:var(--g600);margin-bottom:16px;}
+.feature-text-title{font-size:25px;font-weight:700;color:var(--ink950);margin-bottom:10px;letter-spacing:-.01em;}
+.feature-text-desc{font-size:14px;color:var(--ink400);line-height:1.8;margin-bottom:18px;}
+.feature-bullets{display:flex;flex-direction:column;gap:9px;}
+.feature-bullet{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink700);}
+.fb-check{width:20px;height:20px;border-radius:50%;background:var(--g50);color:var(--g600);display:grid;place-items:center;font-size:10px;flex-shrink:0;}
+.feature-visual{background:var(--card);border-radius:var(--r-2xl);border:1px solid var(--ink100);box-shadow:var(--sh-lg);padding:24px;min-height:260px;}
+
+/* ───── VALUE CARDS ───── */
+.value-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.value-card{background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:24px 20px;box-shadow:0 1px 2px rgba(0,0,0,.04);text-align:center;}
+.value-icon{width:46px;height:46px;border-radius:12px;background:var(--g50);display:grid;place-items:center;font-size:21px;margin:0 auto 14px;}
+.value-title{font-size:14px;font-weight:700;color:var(--ink900);margin-bottom:7px;}
+.value-desc{font-size:12px;color:var(--ink400);line-height:1.7;}
+
+/* ───── QUOTE ───── */
+.quote-card{background:linear-gradient(135deg,var(--g700),var(--g800));border-radius:var(--r-2xl);padding:36px 40px;color:#fff;position:relative;overflow:hidden;}
+.quote-text{font-size:18px;line-height:1.8;font-weight:500;position:relative;z-index:1;margin-bottom:14px;max-width:740px;}
+.quote-author{font-size:13px;color:rgba(255,255,255,.6);position:relative;z-index:1;}
+
+/* ───── USE CASES ───── */
+.usecase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.usecase-card{background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:22px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.usecase-title{font-size:14px;font-weight:700;color:var(--ink900);margin-bottom:7px;}
+.usecase-desc{font-size:12px;color:var(--ink400);line-height:1.7;margin-bottom:12px;}
+.usecase-example{background:var(--ink50);border-radius:var(--r-md);padding:11px 13px;font-size:11px;color:var(--ink600);line-height:1.7;border-right:3px solid var(--g300);}
+
+/* ───── TIMELINE ───── */
+.about-timeline{position:relative;padding-right:30px;max-width:740px;margin:0 auto;}
+.about-timeline::before{content:'';position:absolute;right:9px;top:8px;bottom:8px;width:2px;background:var(--ink100);}
+.about-tl-item{position:relative;padding-bottom:28px;}
+.about-tl-item:last-child{padding-bottom:0;}
+.about-tl-dot{position:absolute;right:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--g400);border:4px solid var(--g100);}
+.about-tl-year{font-family:var(--fmo);font-size:12px;font-weight:700;color:var(--g600);margin-bottom:4px;}
+.about-tl-title{font-size:14px;font-weight:700;color:var(--ink900);margin-bottom:4px;}
+.about-tl-desc{font-size:12px;color:var(--ink400);line-height:1.7;}
+
+/* ───── LOGIN ───── */
+.login-wrap{min-height:calc(100vh - 72px);display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--g50) 0%,var(--page) 60%);padding:60px 20px;}
+.login-card{width:420px;background:var(--card);border-radius:var(--r-2xl);box-shadow:var(--sh-lg);border:1px solid var(--ink100);padding:40px 36px;}
+.login-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px;}
+.login-title{font-size:22px;font-weight:700;color:var(--ink950);text-align:center;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--ink400);text-align:center;margin-bottom:28px;}
+.field-group{margin-bottom:16px;}
+.field-label{font-size:12px;font-weight:600;color:var(--ink700);margin-bottom:6px;display:block;}
+.field-input{width:100%;border:1.5px solid var(--ink100);border-radius:var(--r-md);padding:11px 14px;font-family:var(--fm);font-size:14px;color:var(--ink900);outline:none;direction:rtl;transition:border-color .12s;}
+.field-input:focus{border-color:var(--g400);box-shadow:0 0 0 3px rgba(0,153,102,.1);}
+.login-options{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-size:12px;}
+.login-link{color:var(--g600);font-weight:600;text-decoration:none;cursor:pointer;}
+.login-divider{display:flex;align-items:center;gap:10px;margin:22px 0;font-size:11px;color:var(--ink300);}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--ink100);}
+.role-pills{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.role-pill{flex:1;text-align:center;padding:9px 6px;border:1.5px solid var(--ink100);border-radius:var(--r-md);font-size:11px;font-weight:600;color:var(--ink500);cursor:pointer;transition:all .12s;background:none;font-family:var(--fm);}
+.role-pill.active{border-color:var(--g400);background:var(--g50);color:var(--g700);}
+
+/* ───── DASHBOARD PREVIEW ───── */
+.dash-shell{display:flex;min-height:calc(100vh - 72px);}
+.dash-sb{width:240px;background:var(--g900);flex-shrink:0;padding:20px 14px;display:flex;flex-direction:column;}
+.dash-sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);font-size:13px;color:rgba(255,255,255,.6);margin-bottom:2px;cursor:pointer;}
+.dash-sb-item.active{background:rgba(45,196,138,.15);color:#fff;font-weight:700;}
+.dash-sb-item:hover{background:rgba(255,255,255,.06);}
+.dash-main{flex:1;padding:32px;background:var(--page);}
+.dash-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.dash-kpi{background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:20px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.dash-kpi-label{font-size:11px;font-weight:600;color:var(--ink400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.dash-kpi-val{font-family:var(--fmo);font-size:28px;font-weight:800;color:var(--ink900);}
+
+/* ════ WORKSPACE SELECTION ════ */
+.workspace-wrap{min-height:calc(100vh - 0px);display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--g50) 0%,var(--page) 60%);padding:48px 20px;}
+.workspace-inner{max-width:680px;width:100%;text-align:center;}
+.workspace-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px;}
+.workspace-title{font-size:28px;font-weight:700;color:var(--ink900);margin-bottom:8px;letter-spacing:-.01em;}
+.workspace-sub{font-size:14px;color:var(--ink400);margin-bottom:36px;line-height:1.7;}
+.ws-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.ws-card{background:var(--card);border:1.5px solid var(--ink100);border-radius:var(--r-xl);padding:22px 12px;cursor:pointer;transition:all .15s;text-align:center;position:relative;}
+.ws-card:hover{border-color:var(--g300);background:var(--g50);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,90,60,.09);}
+.ws-card.selected{border-color:var(--g500);background:var(--g50);box-shadow:0 0 0 3px rgba(0,122,82,.12);}
+.ws-card.selected::after{content:'✓';position:absolute;top:8px;left:8px;width:18px;height:18px;background:var(--g500);border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;}
+.ws-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.ws-icon svg{width:24px;height:24px;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.ws-name{font-size:13px;font-weight:700;color:var(--ink900);margin-bottom:3px;}
+.ws-desc{font-size:11px;color:var(--ink400);line-height:1.5;}
+.ws-hint{font-size:12px;color:var(--ink400);margin-bottom:20px;}
+
+/* ════ RESPONSIVE — TABLET (max 1024px) ════ */
+@media (max-width: 1024px) {
+  .container { padding: 0 20px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; padding-bottom: 40px; }
+  .hero-visual { display: none; }
+  .hero-h1 { font-size: 36px; }
+  .hero-sub { font-size: 15px; max-width: 100%; }
+  .problem-grid { grid-template-columns: repeat(2,1fr); }
+  .solution-grid { grid-template-columns: repeat(2,1fr); }
+  .journey-steps { grid-template-columns: repeat(3,1fr); }
+  .journey-line-fill { display: none; }
+  .mp-grid { grid-template-columns: 1fr; gap: 28px; }
+  .feature-row { grid-template-columns: 1fr; gap: 24px; }
+  .feature-row.reverse .feature-visual,.feature-row.reverse .feature-text { order: 0; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .value-grid { grid-template-columns: repeat(2,1fr); }
+  .usecase-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .trust-flow { flex-wrap: wrap; gap: 12px; }
+  .nav-links { display: none; }
+  .dash-kpi-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+/* ════ RESPONSIVE — MOBILE (max 640px) ════ */
+@media (max-width: 640px) {
+  .container { padding: 0 16px; }
+  .navbar { padding: 0 16px; height: 60px; }
+  .nav-links { display: none; }
+  .nav-actions .btn-outline { display: none; }
+  .hero { padding: 36px 0 0; }
+  .hero-h1 { font-size: 26px; line-height: 1.35; }
+  .hero-sub { font-size: 14px; }
+  .hero-ctas { flex-direction: column; gap: 10px; }
+  .hero-ctas .btn { width: 100%; justify-content: center; }
+  .hero-trust { flex-wrap: wrap; gap: 12px; }
+  .hero-visual { display: none; }
+  .section { padding: 40px 0; }
+  .section-tight { padding: 0 0 40px; }
+  .section-title { font-size: 22px; }
+  .section-sub { font-size: 14px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .solution-grid { grid-template-columns: 1fr; }
+  .journey-steps { grid-template-columns: repeat(2,1fr); }
+  .journey-line-fill { display: none; }
+  .stats-row { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .value-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .usecase-grid { grid-template-columns: 1fr; }
+  .feature-row { grid-template-columns: 1fr; gap: 20px; }
+  .feature-row.reverse .feature-visual,.feature-row.reverse .feature-text { order: 0; }
+  .marketplace-wrap { padding: 24px 16px; border-radius: var(--r-xl); }
+  .mp-grid { grid-template-columns: 1fr; gap: 20px; }
+  .mp-title { font-size: 20px; }
+  .final-cta { padding: 32px 16px; border-radius: var(--r-xl); }
+  .final-cta-title { font-size: 22px; }
+  .final-cta-btns { flex-direction: column; align-items: stretch; }
+  .final-cta-btns .btn { justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+  .trust-flow { flex-direction: column; align-items: center; gap: 6px; }
+  .trust-arrow { transform: rotate(90deg); }
+  .trust-node { width: 130px; }
+  .login-card { width: 100%; padding: 24px 16px; border-radius: var(--r-xl); }
+  .login-wrap { padding: 20px 16px; align-items: flex-start; padding-top: 32px; }
+  .dash-shell { flex-direction: column; }
+  .dash-sb { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 4px; padding: 8px 12px; }
+  .dash-sb > div:first-child { width: 100%; margin-bottom: 4px; }
+  .dash-sb > div:last-child { width: 100%; border-top: 1px solid rgba(255,255,255,.08); padding-top: 6px; margin-top: 2px; }
+  .dash-sb-item { font-size: 11px; padding: 6px 8px; margin-bottom: 0; }
+  .dash-main { padding: 14px; }
+  .dash-kpi-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .dash-kpi-val { font-size: 20px; }
+  .stat-num { font-size: 22px; }
+  .quote-card { padding: 20px 16px; border-radius: var(--r-xl); }
+  .quote-text { font-size: 14px; }
+  .about-timeline { padding-right: 20px; }
+  .ai-chat-panel { width: calc(100vw - 32px); left: 16px; bottom: 84px; }
+  .ai-float-btn { left: 16px; bottom: 16px; }
+  .esg-factory-card { padding: 14px; }
+  .mp-compare { padding: 14px; }
+  .mp-cmp-vals { gap: 12px; }
+  .nav-hamburger { display: flex; }
+  .nav-actions { display: none; }
+}
+
+/* ════ HAMBURGER & MOBILE MENU ════ */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px; height: 40px;
+  background: none; border: none; cursor: pointer;
+  padding: 6px;
+  border-radius: var(--r-md);
+  margin-right: auto;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--ink700); border-radius: 2px;
+  transition: all .2s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 60px 0 0 0;
+  background: rgba(255,255,255,.98);
+  backdrop-filter: blur(16px);
+  z-index: 49;
+  overflow-y: auto;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu-inner {
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-nav-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  font-family: var(--fm); font-size: 16px; font-weight: 600;
+  color: var(--ink700);
+  background: none; border: none; cursor: pointer;
+  border-radius: var(--r-lg);
+  text-align: right; width: 100%;
+  transition: background .12s;
+}
+.mobile-nav-link:hover { background: var(--g50); color: var(--g700); }
+
+/* ════ FLOATING AI CHAT ════ */
+.ai-float-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.ai-float-main {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--g500), var(--g400));
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,90,60,.35), 0 2px 6px rgba(0,0,0,.12);
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+}
+.ai-float-main:hover {
+  transform: scale(1.07);
+  box-shadow: 0 6px 28px rgba(0,90,60,.45), 0 3px 8px rgba(0,0,0,.14);
+}
+.ai-float-main svg {
+  width: 26px; height: 26px;
+  stroke: #fff; fill: none; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.ai-float-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 16px; height: 16px;
+  background: var(--g300);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  animation: pulse-badge 2s infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: .8; }
+}
+.ai-float-label {
+  background: var(--ink900);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+  box-shadow: var(--sh-md);
+  font-family: var(--fm);
+  animation: float-label-in .3s ease;
+}
+@keyframes float-label-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Chat panel */
+.ai-chat-panel {
+  position: fixed;
+  bottom: 96px;
+  left: 28px;
+  z-index: 998;
+  width: 360px;
+  background: #fff;
+  border-radius: var(--r-2xl);
+  box-shadow: 0 8px 40px rgba(0,35,20,.14), 0 2px 8px rgba(0,0,0,.06);
+  border: 1px solid var(--ink100);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  max-height: 520px;
+  animation: chat-in .2s ease;
+}
+@keyframes chat-in {
+  from { opacity: 0; transform: translateY(12px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ai-chat-panel.open { display: flex; }
+
+.chat-header {
+  background: linear-gradient(135deg, var(--g700), var(--g600));
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chat-header-info { flex: 1; }
+.chat-header-name { font-size: 14px; font-weight: 700; color: #fff; }
+.chat-header-status { font-size: 11px; color: rgba(255,255,255,.65); display: flex; align-items: center; gap: 4px; }
+.chat-online-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g300); display: inline-block; }
+.chat-close { background: none; border: none; cursor: pointer; color: rgba(255,255,255,.7); padding: 4px; }
+.chat-close svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.chat-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--ink50);
+  min-height: 240px;
+  max-height: 320px;
+}
+.msg { display: flex; align-items: flex-start; gap: 8px; }
+.msg.ai { }
+.msg.user { flex-direction: row-reverse; }
+.msg-av {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.msg.ai .msg-av { background: linear-gradient(135deg, var(--g500), var(--g400)); color: #fff; }
+.msg.user .msg-av { background: var(--ink200); color: var(--ink600); }
+.msg-bubble {
+  max-width: 80%;
+  padding: 10px 13px;
+  border-radius: var(--r-lg);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.msg.ai .msg-bubble { background: #fff; color: var(--ink900); border: 1px solid var(--ink100); border-radius: 4px var(--r-lg) var(--r-lg) var(--r-lg); box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.msg.user .msg-bubble { background: var(--g600); color: #fff; border-radius: var(--r-lg) 4px var(--r-lg) var(--r-lg); }
+
+.chat-suggestions {
+  padding: 10px 14px 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--ink50);
+  border-top: 1px solid var(--ink100);
+}
+.chat-suggest-btn {
+  font-size: 11px;
+  font-family: var(--fm);
+  padding: 5px 11px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--ink200);
+  background: #fff;
+  color: var(--ink700);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .12s;
+}
+.chat-suggest-btn:hover { border-color: var(--g400); color: var(--g700); background: var(--g50); }
+
+.chat-input-area {
+  padding: 12px 14px;
+  border-top: 1px solid var(--ink100);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #fff;
+}
+.chat-input {
+  flex: 1;
+  border: 1.5px solid var(--ink100);
+  border-radius: var(--r-full);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-family: var(--fm);
+  direction: rtl;
+  outline: none;
+  background: var(--ink50);
+  color: var(--ink900);
+}
+.chat-input:focus { border-color: var(--g400); background: #fff; }
+.chat-send {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--g500);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .12s;
+}
+.chat-send:hover { background: var(--g400); }
+.chat-send svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<div class="navbar">
+  <div class="nav-logo" onclick="nav('home')" style="cursor:pointer;">
+    <div class="nav-mark">🌿</div>
+    <div class="nav-brand">بصمة</div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link" data-page="home" onclick="nav('home')">الرئيسية</button>
+    <button class="nav-link" data-page="how" onclick="nav('how')">كيف تعمل بصمة</button>
+    <button class="nav-link" data-page="factories" onclick="nav('factories')">المصانع</button>
+    <button class="nav-link" data-page="investors" onclick="nav('investors')">المستثمرون</button>
+    <button class="nav-link" data-page="ai" onclick="nav('ai')">بصمة AI</button>
+    <button class="nav-link" data-page="about" onclick="nav('about')">عن بصمة</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-outline btn-sm" onclick="nav('login')">تسجيل الدخول</button>
+    <button class="btn btn-primary btn-sm" onclick="nav('about'); setTimeout(()=>document.getElementById('contact-anchor').scrollIntoView({behavior:'smooth'}),100)">طلب عرض توضيحي</button>
+  </div>
+  <!-- Hamburger -->
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <button class="mobile-nav-link" onclick="navMobile('home')">🏠 الرئيسية</button>
+    <button class="mobile-nav-link" onclick="navMobile('how')">⚙️ كيف تعمل بصمة</button>
+    <button class="mobile-nav-link" onclick="navMobile('factories')">🏭 المصانع</button>
+    <button class="mobile-nav-link" onclick="navMobile('investors')">📊 المستثمرون</button>
+    <button class="mobile-nav-link" onclick="navMobile('ai')">✨ بصمة AI</button>
+    <button class="mobile-nav-link" onclick="navMobile('about')">🌿 عن بصمة</button>
+    <div style="border-top:1px solid var(--ink100);margin-top:8px;padding-top:16px;display:flex;flex-direction:column;gap:10px;">
+      <button class="btn btn-outline" style="width:100%;justify-content:center;" onclick="navMobile('login')">تسجيل الدخول</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="navMobile('about')">طلب عرض توضيحي</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════════ -->
+<section class="page active" id="page-home">
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">🌿 منصة ذكاء الاستدامة للمصانع</div>
+        <div class="hero-h1">حوّل بيانات الاستدامة<br>إلى <span class="accent">قرارات موثوقة</span></div>
+        <div class="hero-sub">منصة ذكاء الاستدامة التي تساعد المصانع والشركات الصناعية على قياس الأداء البيئي، توثيق التقارير، وإظهار التزامها أمام المستثمرين والمشترين بثقة وشفافية كاملة.</div>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="nav('login')">ابدأ الآن</button>
+          <button class="btn btn-outline" onclick="nav('how')">استكشف المنصة</button>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><div class="trust-dot"></div>متوافق مع GHG Protocol وISO 14001</div>
+          <div class="trust-item"><div class="trust-dot"></div>تحقق خارجي مستقل</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="mockup-window mockup-main">
+          <div class="mockup-bar"><div class="mockup-dot" style="background:#FCA5A5;"></div><div class="mockup-dot" style="background:#FCD34D;"></div><div class="mockup-dot" style="background:#86EFAC;"></div></div>
+          <div class="mockup-body">
+            <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">لوحة أداء الاستدامة — شركة النيل للصناعات الغذائية</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+              <div style="background:var(--g50);border-radius:var(--r-lg);padding:14px;border:1px solid var(--g100);">
+                <div style="font-size:10px;color:var(--g600);font-weight:600;margin-bottom:6px;">كثافة الكربون</div>
+                <div style="font-family:var(--fmo);font-size:22px;font-weight:800;color:var(--g700);">0.58</div>
+                <div style="font-size:10px;color:var(--ink400);">tCO₂/طن — أقل 23% من القطاع</div>
+              </div>
+              <div style="background:var(--m50);border-radius:var(--r-lg);padding:14px;border:1px solid var(--m100);">
+                <div style="font-size:10px;color:var(--m500);font-weight:600;margin-bottom:6px;">كفاءة الطاقة</div>
+                <div style="font-family:var(--fmo);font-size:22px;font-weight:800;color:var(--m500);">248</div>
+                <div style="font-size:10px;color:var(--ink400);">kWh/طن — ممتاز</div>
+              </div>
+            </div>
+            <div style="background:var(--ink50);border-radius:var(--r-lg);padding:14px;margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:8px;"><span style="color:var(--ink400);">تقدّم التقرير الفصلي</span><span style="font-family:var(--fmo);font-weight:700;color:var(--ink700);">82%</span></div>
+              <div style="height:6px;background:var(--ink100);border-radius:var(--r-full);overflow:hidden;"><div style="height:100%;width:82%;background:linear-gradient(90deg,var(--g400),var(--m400));border-radius:var(--r-full);"></div></div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <span class="chip chip-ok">✓ GHG محقق</span><span class="chip chip-ok">✓ ISO 50001</span><span class="chip chip-warn">⚠ مراجعة GRI 306</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="float-card score-card">
+          <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">ESG Score</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="score-ring-wrap">
+              <svg width="50" height="50" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="5"/><circle cx="32" cy="32" r="26" fill="none" stroke="#7DDCB4" stroke-width="5" stroke-dasharray="163.4" stroke-dashoffset="14.7" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>
+              <div class="score-inner"><div class="score-num" style="font-size:14px;color:#fff;">92</div><div class="score-denom" style="color:rgba(255,255,255,.5);">/100</div></div>
+            </div>
+            <div><div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;">رائد في القطاع</div><div style="font-size:10px;color:rgba(255,255,255,.55);">شركة النيل للصناعات الغذائية</div></div>
+          </div>
+        </div>
+
+        <div class="float-card verify-card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:32px;height:32px;border-radius:9px;background:var(--g50);display:grid;place-items:center;font-size:15px;flex-shrink:0;">✓</div>
+            <div><div style="font-size:12px;font-weight:700;color:var(--ink900);">تحقق خارجي مكتمل</div><div style="font-size:10px;color:var(--ink400);">Bureau Veritas · 2026</div></div>
+          </div>
+          <div style="display:flex;gap:6px;"><span class="chip chip-ok" style="font-size:10px;">GHG ✓</span><span class="chip chip-ok" style="font-size:10px;">ISO ✓</span></div>
+        </div>
+
+        <div class="float-card compare-card">
+          <div style="font-size:10px;color:var(--ink400);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">مقارنة للمستثمرين</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="text-align:center;"><div style="font-size:11px;font-weight:600;color:var(--g700);margin-bottom:4px;">الشمال</div><div style="font-family:var(--fmo);font-size:18px;font-weight:800;color:var(--g600);">92</div></div>
+            <div style="color:var(--ink300);font-size:12px;">vs</div>
+            <div style="text-align:center;"><div style="font-size:11px;font-weight:600;color:var(--ink400);margin-bottom:4px;">الجنوب</div><div style="font-family:var(--fmo);font-size:18px;font-weight:800;color:var(--gold500);">70</div></div>
+            <div style="text-align:center;"><div style="font-size:9px;color:var(--ink300);margin-bottom:4px;">المخاطر</div><span class="chip chip-ok" style="font-size:9px;">منخفضة</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">ما نحققه معاً</div>
+      <div class="section-title">ما نحققه مع شركائنا في الاستدامة</div>
+      <div class="section-sub">نحوّل تعقيد بيانات ESG إلى قيمة حقيقية — لكل فريق في المصنع، وللمستثمرين، وللمجتمع</div>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">01</div>
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+        <div class="problem-title">بيانات موحدة في مكان واحد</div>
+        <div class="problem-desc">الطاقة والانبعاثات والمياه والمخلفات — كلها في لوحة واحدة منظمة، قابلة للمشاركة والتحقق في أي وقت.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div class="problem-title">كل رقم بالدليل</div>
+        <div class="problem-desc">كل مؤشر ESG مرتبط بمستنده الداعم — جاهز للتحقق الداخلي والخارجي في أي وقت بثقة كاملة.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="problem-title">اعتماد أسرع وأكثر وضوحًا</div>
+        <div class="problem-desc">مسار تحقق منظم بين المصنع والمدقق يختصر الوقت ويزيل الغموض من كل خطوة في العملية.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">04</div>
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <div class="problem-title">إظهار التميز البيئي</div>
+        <div class="problem-desc">ملف ESG موثوق يُبرز أداء مصنعك للمستثمرين والمشترين — ويُحوّل الاستدامة إلى ميزة تنافسية حقيقية.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNEY -->
+<div class="section" style="background:var(--g50);border-radius:var(--r-2xl);max-width:1240px;margin:0 auto;padding:56px 40px;">
+  <div class="section-head">
+    <div class="section-eyebrow">كيف تعمل المنصة</div>
+    <div class="section-title">رحلة ESG كاملة في منصة واحدة</div>
+    <div class="section-sub">من جمع البيانات إلى عرضها للمستثمرين — كل خطوة مرتبطة ومُوثَّقة</div>
+  </div>
+  <div class="journey-wrap">
+    <div class="journey-line-fill"></div>
+    <div class="journey-steps">
+      <div class="journey-step"><div class="journey-circle">01</div><div class="journey-title">اجمع البيانات</div><div class="journey-desc">فرق المصنع تُدخل بيانات الاستدامة.</div></div>
+      <div class="journey-step"><div class="journey-circle">02</div><div class="journey-title">اربط الأدلة</div><div class="journey-desc">كل رقم يرتبط بمستند داعم.</div></div>
+      <div class="journey-step"><div class="journey-circle">03</div><div class="journey-title">راجع واعتمد</div><div class="journey-desc">الفرق الداخلية تعتمد التقارير.</div></div>
+      <div class="journey-step"><div class="journey-circle">04</div><div class="journey-title">تحقق خارجيًا</div><div class="journey-desc">جهة مستقلة تتحقق من البيانات.</div></div>
+      <div class="journey-step"><div class="journey-circle" style="background:linear-gradient(135deg,var(--g600),var(--g400));border:none;color:#fff;">05</div><div class="journey-title">اعرض الأداء</div><div class="journey-desc">المستثمرون يكتشفون ملفك الموثوق.</div></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <button class="btn btn-primary" onclick="nav('how')">شاهد التفاصيل الكاملة →</button>
+  </div>
+</div>
+
+<!-- SOLUTIONS -->
+<div class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">الحلول</div>
+      <div class="section-title">مصممة لكل أطراف منظومة الاستدامة</div>
+      <div class="section-sub">منصة واحدة تخدم المصانع، جهات التحقق، والمستثمرين بتجربة مصممة خصيصًا لكل طرف</div>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card featured" onclick="nav('factories')">
+        <div class="solution-icon">🏭</div>
+        <div class="solution-title">للمصانع</div>
+        <div class="solution-sub">إدارة بيانات الاستدامة بالكامل من مكان واحد</div>
+        <div class="solution-features">
+          <div class="solution-feature"><div class="sf-check">✓</div>إدارة بيانات ESG لجميع المؤشرات</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>متابعة الانبعاثات والطاقة والمياه</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>إنشاء تقارير الاستدامة تلقائيًا</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>استخدام مساعد ذكاء اصطناعي</div>
+        </div>
+        <button class="btn btn-light" onclick="event.stopPropagation(); nav('factories')">اكتشف حلول المصانع</button>
+      </div>
+      <div class="solution-card regular" onclick="nav('how')">
+        <div class="solution-icon">🔍</div>
+        <div class="solution-title">لجهات التحقق</div>
+        <div class="solution-sub">أدوات تحقق واضحة وسريعة</div>
+        <div class="solution-features">
+          <div class="solution-feature"><div class="sf-check">✓</div>مراجعة الأدلة والمستندات</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>تتبع الملاحظات وطلبات الاستكمال</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>اعتماد التقارير وتوثيقها</div>
+        </div>
+        <button class="btn btn-outline" onclick="event.stopPropagation(); nav('how')">تعرّف على دور التحقق</button>
+      </div>
+      <div class="solution-card regular" onclick="nav('investors')">
+        <div class="solution-icon">📊</div>
+        <div class="solution-title">للمستثمرين</div>
+        <div class="solution-sub">اتخذ قرارات استثمارية أكثر وعيًا</div>
+        <div class="solution-features">
+          <div class="solution-feature"><div class="sf-check">✓</div>اكتشاف المصانع البصمةة</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>مقارنة الأداء البيئي</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>تقييم المخاطر المستقبلية</div>
+          <div class="solution-feature"><div class="sf-check">✓</div>اختيار شركاء أفضل</div>
+        </div>
+        <button class="btn btn-outline" onclick="event.stopPropagation(); nav('investors')">استكشف المصانع</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARKETPLACE -->
+<div class="section-tight">
+  <div class="container">
+    <div class="marketplace-wrap">
+      <div class="mp-grid">
+        <div>
+          <div class="section-eyebrow" style="color:var(--g300);">الميزة المحورية</div>
+          <div class="mp-title">اكتشف المصانع الأكثر استعدادًا للمستقبل</div>
+          <div class="mp-desc">نساعد المستثمرين والمشترين على اتخاذ قرارات مبنية على بيانات بيئية موثوقة — استعرض، قارن، واختر المصانع الأكثر استدامة.</div>
+          <button class="btn btn-light" onclick="nav('investors')">استكشف منصة المستثمرين</button>
+        </div>
+        <div>
+          <div class="esg-factory-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <div><div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:4px;">شركة النيل للصناعات الغذائية</div><div class="verify-badge">✓ موثق خارجياً</div></div>
+              <div class="score-ring-wrap">
+                <svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--ink100)" stroke-width="5"/><circle cx="32" cy="32" r="26" fill="none" stroke="url(#mp-ring)" stroke-width="5" stroke-dasharray="163.4" stroke-dashoffset="14.7" stroke-linecap="round" transform="rotate(-90 32 32)"/><defs><linearGradient id="mp-ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#007A52"/><stop offset="100%" stop-color="#2DC48A"/></linearGradient></defs></svg>
+                <div class="score-inner"><div class="score-num" style="font-size:15px;color:var(--g600);">92</div><div class="score-denom">/100</div></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;"><span class="chip chip-ok">كثافة كربون: 0.58</span><span class="chip chip-ok">مخاطر منخفضة</span></div>
+          </div>
+          <div class="mp-compare">
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+              <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.06em;">المؤشر</div>
+              <div class="mp-cmp-vals"><div style="font-size:11px;font-weight:700;color:var(--g700);min-width:60px;text-align:center;">الشمال</div><div style="font-size:11px;font-weight:700;color:var(--ink400);min-width:60px;text-align:center;">الجنوب</div></div>
+            </div>
+            <div class="mp-cmp-row"><span style="color:var(--ink400);">ESG Score</span><div class="mp-cmp-vals"><span class="mp-cmp-val" style="color:var(--g600);">92</span><span class="mp-cmp-val" style="color:var(--ink400);">70</span></div></div>
+            <div class="mp-cmp-row"><span style="color:var(--ink400);">كثافة الكربون</span><div class="mp-cmp-vals"><span class="mp-cmp-val" style="color:var(--g600);">0.58</span><span class="mp-cmp-val" style="color:var(--ink400);">0.89</span></div></div>
+            <div class="mp-cmp-row"><span style="color:var(--ink400);">مستوى المخاطر</span><div class="mp-cmp-vals" style="min-width:120px;justify-content:space-around;"><span class="chip chip-ok" style="font-size:9px;">منخفضة</span><span class="chip chip-red" style="font-size:9px;">مرتفعة</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI TEASER -->
+<div class="section">
+  <div class="container">
+    <div class="feature-row">
+      <div>
+        <div class="section-eyebrow">الذكاء الاصطناعي</div>
+        <div class="feature-text-title">ذكاء اصطناعي يساعدك على فهم بيانات ESG</div>
+        <div class="feature-text-desc">لا تحتاج لتكون خبير استدامة لفهم بياناتك — الذكاء الاصطناعي يحوّل الأرقام إلى رؤى واضحة وقابلة للتنفيذ.</div>
+        <div class="feature-bullets" style="margin-bottom:20px;">
+          <div class="feature-bullet"><div class="fb-check">✓</div>تحليل الأداء</div>
+          <div class="feature-bullet"><div class="fb-check">✓</div>اكتشاف القيم غير المعتادة</div>
+          <div class="feature-bullet"><div class="fb-check">✓</div>فهم المخاطر وتوصيات التحسين</div>
+        </div>
+        <button class="btn btn-primary" onclick="nav('ai')">اكتشف الذكاء الاصطناعي</button>
+      </div>
+      <div class="ai-card">
+        <div class="ai-pill">✨ مساعد الاستدامة الذكي</div>
+        <div class="ai-chart-bars">
+          <div class="ai-bar" style="height:55%;"></div><div class="ai-bar" style="height:70%;"></div><div class="ai-bar" style="height:62%;"></div><div class="ai-bar" style="height:80%;"></div><div class="ai-bar highlight" style="height:48%;"></div><div class="ai-bar highlight" style="height:42%;"></div>
+        </div>
+        <div class="ai-msg">انخفضت <span class="ai-highlight">كثافة الانبعاثات بنسبة 15٪</span> مقارنة بالفترة السابقة، بفضل تحسين كفاءة الفرن الرئيسي وزيادة استخدام الوقود البديل.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST FLOW -->
+<div class="section" style="text-align:center;">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">الثقة والتحقق</div>
+      <div class="section-title">الثقة تبدأ من مصدر البيانات</div>
+      <div class="section-sub">كل معلومة يمكن تتبع مصدرها قبل استخدامها في القرارات</div>
+    </div>
+    <div class="trust-flow">
+      <div class="trust-node"><div class="trust-node-icon">📊</div><div class="trust-node-title">البيانات</div><div class="trust-node-sub">إدخال المؤشرات</div></div>
+      <div class="trust-arrow">←</div>
+      <div class="trust-node"><div class="trust-node-icon">📎</div><div class="trust-node-title">الأدلة</div><div class="trust-node-sub">مستندات داعمة</div></div>
+      <div class="trust-arrow">←</div>
+      <div class="trust-node"><div class="trust-node-icon">🔍</div><div class="trust-node-title">المراجعة</div><div class="trust-node-sub">اعتماد داخلي</div></div>
+      <div class="trust-arrow">←</div>
+      <div class="trust-node"><div class="trust-node-icon">✅</div><div class="trust-node-title">تحقق خارجي</div><div class="trust-node-sub">جهة مستقلة</div></div>
+      <div class="trust-arrow">←</div>
+      <div class="trust-node final"><div class="trust-node-icon">🏆</div><div class="trust-node-title">ملف موثوق</div><div class="trust-node-sub">جاهز للمستثمرين</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="section-tight">
+  <div class="container">
+    <div class="final-cta">
+      <div class="final-cta-title">اجعل الاستدامة ميزة تنافسية لمصنعك</div>
+      <div class="final-cta-sub">ابدأ بقياس الأداء، بناء الثقة، والوصول إلى فرص أفضل — كل ذلك من منصة واحدة.</div>
+      <div class="final-cta-btns">
+        <button class="btn btn-light" onclick="nav('login')">ابدأ الآن</button>
+        <button class="btn btn-ghost-light" onclick="nav('about')">تواصل معنا</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section><!-- /page-home -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: HOW IT WORKS
+═══════════════════════════════════════════ -->
+<section class="page" id="page-how">
+  <div class="hero" style="padding-top:48px;">
+    <div class="container" style="text-align:center;padding-bottom:48px;">
+      <div class="eyebrow" style="display:inline-flex;">كيف تعمل المنصة</div>
+      <div class="hero-h1" style="font-size:42px;">من البيانات الخام إلى<br>ملف ESG <span class="accent">جاهز للمستثمرين</span></div>
+      <div class="hero-sub" style="max-width:620px;margin:0 auto 28px;">بصمة تربط كل خطوة في رحلة الاستدامة الصناعية — من إدخال البيانات وحتى عرضها بثقة كاملة أمام المستثمرين والمشترين.</div>
+      <div class="hero-ctas" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="nav('login')">ابدأ الآن</button>
+        <button class="btn btn-outline" onclick="nav('about')">شاهد عرضًا توضيحيًا</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">25+</div><div class="stat-label">مصنع وشركة صناعية على المنصة</div></div>
+        <div class="stat-box"><div class="stat-num">1,200+</div><div class="stat-label">تقرير ESG موثّق</div></div>
+        <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">متوسط درجة ثقة البيانات</div></div>
+        <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">أدوار مترابطة في رحلة واحدة</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 01 -->
+  <div class="section"><div class="container"><div class="feature-row">
+    <div>
+      <div class="feature-step-num">01</div>
+      <div class="feature-text-title">اجمع البيانات في مكان واحد</div>
+      <div class="feature-text-desc">فرق المصنع تُدخل بيانات الاستدامة بشكل منظم: الطاقة، المياه، الانبعاثات، والمخلفات، وفق معايير دولية معتمدة.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>نماذج مخصصة لكل مؤشر (GHG, ISO 50001, GRI)</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>تتبع تلقائي للفترات والوحدات الإنتاجية</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>تنبيهات عند وجود بيانات ناقصة</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">نموذج إدخال — الانبعاثات الكربونية</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div style="background:var(--ink50);border-radius:var(--r-lg);padding:14px;"><div style="font-size:10px;color:var(--ink400);margin-bottom:6px;">مصدر الانبعاث</div><div style="font-size:13px;font-weight:600;color:var(--ink900);">احتراق الفحم</div></div>
+        <div style="background:var(--ink50);border-radius:var(--r-lg);padding:14px;"><div style="font-size:10px;color:var(--ink400);margin-bottom:6px;">بيانات النشاط</div><div style="font-family:var(--fmo);font-size:13px;font-weight:700;color:var(--ink900);">180 طن</div></div>
+      </div>
+      <div style="background:var(--g50);border-radius:var(--r-lg);padding:14px;border:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;"><span style="font-size:12px;color:var(--g700);font-weight:600;">إجمالي Scope 1</span><span style="font-family:var(--fmo);font-size:18px;font-weight:800;color:var(--g700);">406.8 tCO₂e</span></div>
+    </div>
+  </div></div></div>
+
+  <!-- STEP 02 -->
+  <div class="section"><div class="container"><div class="feature-row reverse">
+    <div>
+      <div class="feature-step-num">02</div>
+      <div class="feature-text-title">اربط كل رقم بدليله</div>
+      <div class="feature-text-desc">كل قيمة مُدخَلة ترتبط بمستند داعم — فاتورة، شهادة معايرة، أو تقرير رسمي — حتى تكون جاهزة للمراجعة والتحقق في أي وقت.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>رفع المستندات بصيغ PDF وExcel والصور</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>مطابقة تلقائية بين القيمة والدليل</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>أرشيف منظّم لكل فترة تقرير</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">مركز الأدلة</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><div style="width:34px;height:34px;border-radius:8px;background:rgba(0,90,61,.1);display:grid;place-items:center;font-size:14px;">📄</div><div style="flex:1;font-size:13px;font-weight:600;color:var(--ok-txt);">فاتورة الغاز الطبيعي — يونيو</div><span class="chip chip-ok">✓ مطابق</span></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><div style="width:34px;height:34px;border-radius:8px;background:rgba(0,90,61,.1);display:grid;place-items:center;font-size:14px;">📊</div><div style="flex:1;font-size:13px;font-weight:600;color:var(--ok-txt);">جداول حساب GHG — H1 2026</div><span class="chip chip-ok">✓ مطابق</span></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--warn-bg);border-radius:var(--r-md);border:1px solid var(--warn-border);"><div style="width:34px;height:34px;border-radius:8px;background:rgba(146,102,15,.1);display:grid;place-items:center;font-size:14px;">⚠</div><div style="flex:1;font-size:13px;font-weight:600;color:var(--warn-txt);">شهادة معايرة الأجهزة</div><span class="chip chip-warn">قيد المراجعة</span></div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- STEP 03 -->
+  <div class="section"><div class="container"><div class="feature-row">
+    <div>
+      <div class="feature-step-num">03</div>
+      <div class="feature-text-title">راجع، اعتمد، وتتبّع</div>
+      <div class="feature-text-desc">فرق الاستدامة الداخلية تراجع البيانات والأدلة، تعتمد التقارير أو تطلب تصحيحات — مع مسار اعتماد واضح لكل تقرير.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>مسار اعتماد متعدد المستويات</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>سجل تدقيق كامل لكل تعديل</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>تنبيهات للبيانات المتأخرة أو الناقصة</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px;">مسار الاعتماد</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="text-align:center;flex:1;"><div style="width:42px;height:42px;border-radius:50%;background:var(--g400);color:#fff;display:grid;place-items:center;font-size:15px;margin:0 auto 8px;">✓</div><div style="font-size:11px;font-weight:600;color:var(--ink700);">إدخال البيانات</div></div>
+        <div style="flex:1;height:2px;background:var(--g300);"></div>
+        <div style="text-align:center;flex:1;"><div style="width:42px;height:42px;border-radius:50%;background:var(--g400);color:#fff;display:grid;place-items:center;font-size:15px;margin:0 auto 8px;">✓</div><div style="font-size:11px;font-weight:600;color:var(--ink700);">مراجعة مالك البيانات</div></div>
+        <div style="flex:1;height:2px;background:var(--g300);"></div>
+        <div style="text-align:center;flex:1;"><div style="width:42px;height:42px;border-radius:50%;background:var(--card);border:2px solid var(--g500);color:var(--g600);display:grid;place-items:center;font-size:13px;font-weight:700;margin:0 auto 8px;">3</div><div style="font-size:11px;font-weight:700;color:var(--g700);">اعتماد EHS</div></div>
+        <div style="flex:1;height:2px;background:var(--ink100);"></div>
+        <div style="text-align:center;flex:1;"><div style="width:42px;height:42px;border-radius:50%;background:var(--card);border:2px solid var(--ink200);color:var(--ink300);display:grid;place-items:center;font-size:13px;font-weight:700;margin:0 auto 8px;">4</div><div style="font-size:11px;color:var(--ink400);">تدقيق داخلي</div></div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- STEP 04 -->
+  <div class="section"><div class="container"><div class="feature-row reverse">
+    <div>
+      <div class="feature-step-num">04</div>
+      <div class="feature-text-title">تحقق خارجي يرفع الثقة</div>
+      <div class="feature-text-desc">جهات تحقق مستقلة تراجع البيانات والأدلة عبر بوابة مخصصة، تطلب استكمالات إن لزم، وتختم التقرير بعلامة "موثّق خارجياً".</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>بوابة دخول مخصصة لجهات التحقق</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>طلبات استكمال موثّقة ومتابَعة</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>شهادة تحقق رسمية قابلة للتحميل</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;"><div style="width:46px;height:46px;border-radius:12px;background:var(--g50);border:1px solid var(--g200);display:grid;place-items:center;font-size:20px;">✅</div><div><div style="font-size:14px;font-weight:700;color:var(--ink900);">تحقق خارجي مكتمل</div><div style="font-size:11px;color:var(--ink400);">Bureau Veritas — جهة دولية معتمدة</div></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><span style="font-size:12px;color:var(--ok-txt);">تقرير GHG Protocol</span><span class="chip chip-ok">✓ محقق</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><span style="font-size:12px;color:var(--ok-txt);">تقرير ISO 50001</span><span class="chip chip-ok">✓ محقق</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><span style="font-size:12px;color:var(--ok-txt);">تقرير GRI 303/306</span><span class="chip chip-ok">✓ محقق</span></div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- STEP 05 -->
+  <div class="section"><div class="container"><div class="feature-row">
+    <div>
+      <div class="feature-step-num">05</div>
+      <div class="feature-text-title">اعرض أداءك أمام المستثمرين</div>
+      <div class="feature-text-desc">بعد التحقق، يصبح ملف المصنع متاحًا في منصة المستثمرين — مع ESG Score، مقارنات، وتحليلات ذكاء اصطناعي تساعدهم على اتخاذ القرار الصحيح.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>ملف ESG عام قابل للمقارنة</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>ظهور في نتائج البحث والمطابقة الذكية</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>تواصل مباشر مع المستثمرين المهتمين</div>
+      </div>
+      <div style="margin-top:18px;"><button class="btn btn-primary" onclick="nav('investors')">شاهد منصة المستثمرين →</button></div>
+    </div>
+    <div class="feature-visual">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div><div style="font-size:14px;font-weight:700;color:var(--ink900);">شركة النيل للصناعات الغذائية</div><div class="verify-badge" style="margin-top:6px;">✓ موثق خارجياً</div></div>
+        <div class="score-ring-wrap"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--ink100)" stroke-width="5"/><circle cx="32" cy="32" r="26" fill="none" stroke="url(#step5-ring)" stroke-width="5" stroke-dasharray="163.4" stroke-dashoffset="14.7" stroke-linecap="round" transform="rotate(-90 32 32)"/><defs><linearGradient id="step5-ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#007A52"/><stop offset="100%" stop-color="#2DC48A"/></linearGradient></defs></svg><div class="score-inner"><div class="score-num" style="font-size:15px;color:var(--g600);">92</div><div class="score-denom">/100</div></div></div>
+      </div>
+      <div class="ai-msg" style="background:var(--g50);border:1px solid var(--g100);color:var(--g700);">✨ هذا المصنع يطابق <span style="color:var(--g700);font-weight:800;">94%</span> من معايير المستثمرين الباحثين عن أقل مخاطر كربونية.</div>
+    </div>
+  </div></div></div>
+
+  <!-- FINAL CTA -->
+  <div class="section-tight"><div class="container">
+    <div class="final-cta">
+      <div class="final-cta-title">جاهز تبدأ رحلة الاستدامة؟</div>
+      <div class="final-cta-sub">انضم إلى المصانع التي تبني الثقة مع المستثمرين عبر بيانات موثوقة وشفافة.</div>
+      <div class="final-cta-btns"><button class="btn btn-light" onclick="nav('login')">ابدأ الآن</button><button class="btn btn-ghost-light" onclick="nav('about')">تواصل معنا</button></div>
+    </div>
+  </div></div>
+</section><!-- /page-how -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: FACTORY SOLUTIONS
+═══════════════════════════════════════════ -->
+<section class="page" id="page-factories">
+  <div class="hero" style="padding-top:48px;">
+    <div class="container" style="text-align:center;padding-bottom:48px;">
+      <div class="eyebrow" style="display:inline-flex;">🏭 للمصانع</div>
+      <div class="hero-h1" style="font-size:42px;">كل بيانات استدامتك،<br>في <span class="accent">لوحة واحدة منظمة</span></div>
+      <div class="hero-sub" style="max-width:620px;margin:0 auto 28px;">من إدخال البيانات إلى التقارير الجاهزة للتحقق — بصمة يمنح فريقك الوقت للتركيز على التحسين، لا على جمع الأرقام.</div>
+      <div class="hero-ctas" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="nav('login')">ابدأ الآن</button>
+        <button class="btn btn-outline" onclick="nav('about')">احجز جولة في المنصة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0;"><div class="container">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">أدوار جاهزة لكل فريق في المصنع</div></div>
+      <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">معايير دولية مدمجة (GHG, ISO, GRI, CBAM)</div></div>
+      <div class="stat-box"><div class="stat-num">-60%</div><div class="stat-label">وقت أقل لإعداد التقارير الفصلية</div></div>
+      <div class="stat-box"><div class="stat-num">24/7</div><div class="stat-label">رصد مستمر للمؤشرات والتنبيهات</div></div>
+    </div>
+  </div></div>
+
+  <!-- FEATURE 1 -->
+  <div class="section"><div class="container"><div class="feature-row">
+    <div>
+      <div class="section-eyebrow">إدارة البيانات</div>
+      <div class="feature-text-title">إدارة بيانات ESG لكل مؤشر</div>
+      <div class="feature-text-desc">نماذج جاهزة لكل من الطاقة، المياه، الانبعاثات، والمخلفات — مصممة وفق المعايير الدولية، مع تتبع تلقائي للفترات الزمنية والوحدات الإنتاجية.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>نماذج Scope 1 / 2 / 3 جاهزة</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>دعم متعدد المصانع والوحدات</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>تحقق تلقائي من اكتمال البيانات</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">لوحة المؤشرات — يونيو 2026</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:var(--g50);border-radius:var(--r-lg);padding:14px;border:1px solid var(--g100);"><div style="font-size:10px;color:var(--g600);font-weight:600;margin-bottom:6px;">الانبعاثات Scope 1</div><div style="font-family:var(--fmo);font-size:20px;font-weight:800;color:var(--g700);">413.2</div><div style="font-size:10px;color:var(--ink400);">tCO₂e هذا الشهر</div></div>
+        <div style="background:var(--m50);border-radius:var(--r-lg);padding:14px;border:1px solid var(--m100);"><div style="font-size:10px;color:var(--m500);font-weight:600;margin-bottom:6px;">استهلاك الطاقة</div><div style="font-family:var(--fmo);font-size:20px;font-weight:800;color:var(--m500);">1.29</div><div style="font-size:10px;color:var(--ink400);">GWh هذا الشهر</div></div>
+        <div style="background:var(--ink50);border-radius:var(--r-lg);padding:14px;"><div style="font-size:10px;color:var(--ink400);font-weight:600;margin-bottom:6px;">استهلاك المياه</div><div style="font-family:var(--fmo);font-size:20px;font-weight:800;color:var(--ink700);">890</div><div style="font-size:10px;color:var(--ink400);">م³ هذا الشهر</div></div>
+        <div style="background:var(--ink50);border-radius:var(--r-lg);padding:14px;"><div style="font-size:10px;color:var(--ink400);font-weight:600;margin-bottom:6px;">المخلفات المُحوَّلة</div><div style="font-family:var(--fmo);font-size:20px;font-weight:800;color:var(--ink700);">72%</div><div style="font-size:10px;color:var(--ink400);">معدّل التحويل</div></div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- FEATURE 2 -->
+  <div class="section"><div class="container"><div class="feature-row reverse">
+    <div>
+      <div class="section-eyebrow">التقارير</div>
+      <div class="feature-text-title">تقارير استدامة جاهزة بضغطة واحدة</div>
+      <div class="feature-text-desc">حوّل بياناتك المُدخَلة والمعتمدة إلى تقارير منسّقة وفق GHG Protocol وISO 14001 وGRI — جاهزة للمشاركة الداخلية أو التحقق الخارجي.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>تصدير PDF وExcel بتنسيق احترافي</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>سجل كامل لجميع التقارير السابقة</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>مقارنة تلقائية بين الفترات</div>
+      </div>
+    </div>
+    <div class="feature-visual">
+      <div style="font-size:11px;font-weight:700;color:var(--ink400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;">مركز التقارير</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--ok-bg);border-radius:var(--r-md);border:1px solid var(--ok-border);"><div style="width:34px;height:34px;border-radius:8px;background:rgba(0,90,61,.1);display:grid;place-items:center;font-size:14px;">📋</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--ok-txt);">تقرير GHG — H1 2026</div><div style="font-size:11px;color:var(--ok-txt);opacity:.7;">جاهز للتصدير</div></div><span class="chip chip-ok">✓ مكتمل</span></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--warn-bg);border-radius:var(--r-md);border:1px solid var(--warn-border);"><div style="width:34px;height:34px;border-radius:8px;background:rgba(146,102,15,.1);display:grid;place-items:center;font-size:14px;">⚡</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--warn-txt);">تقرير ISO 50001 — H1 2026</div><div style="font-size:11px;color:var(--warn-txt);opacity:.7;">جارٍ الإعداد</div></div><span class="chip chip-warn">85%</span></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--ink50);border-radius:var(--r-md);"><div style="width:34px;height:34px;border-radius:8px;background:var(--ink100);display:grid;place-items:center;font-size:14px;">🌊</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--ink700);">تقرير GRI 303/306 — Q1 2026</div><div style="font-size:11px;color:var(--ink400);">مُحقَّق ومُؤرشَف</div></div><span class="chip" style="background:var(--ink100);color:var(--ink500);border-color:var(--ink200);">⬇ تحميل</span></div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- FEATURE 3 -->
+  <div class="section"><div class="container"><div class="feature-row">
+    <div>
+      <div class="section-eyebrow">مساعد الذكاء الاصطناعي</div>
+      <div class="feature-text-title">مساعد ذكي يراجع بياناتك معك</div>
+      <div class="feature-text-desc">يكتشف القيم غير المعتادة، يشرح التغييرات في المؤشرات، ويقترح إجراءات تحسين — كل ذلك بلغة عربية واضحة يفهمها الجميع.</div>
+      <div class="feature-bullets">
+        <div class="feature-bullet"><div class="fb-check">✓</div>تنبيهات فورية عند الانحرافات</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>ملخصات تلقائية للتقارير</div>
+        <div class="feature-bullet"><div class="fb-check">✓</div>توصيات لتحسين الأداء البيئي</div>
+      </div>
+      <div style="margin-top:18px;"><button class="btn btn-primary" onclick="nav('ai')">المزيد عن الذكاء الاصطناعي →</button></div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-pill">✨ مساعد الاستدامة الذكي</div>
+      <div class="ai-msg" style="margin-top:18px;">لاحظت أن <span class="ai-highlight">استهلاك الطاقة</span> في الوحدة أ ارتفع بنسبة <span class="ai-highlight">22%</span> عن الشهر السابق دون زيادة في الإنتاج — هل تريد مراجعة التفاصيل؟</div>
+      <div class="ai-msg" style="margin-top:10px;">تقرير الانبعاثات لشهر يونيو جاهز للمراجعة — <span class="ai-highlight">إجمالي Scope 1 انخفض 4.2%</span> مقارنة بمايو. أحسنت!</div>
+    </div>
+  </div></div></div>
+
+  <!-- TESTIMONIAL -->
+  <div class="section-tight"><div class="container">
+    <div class="quote-card">
+      <div class="quote-text">"قبل بصمة كانت بيانات الاستدامة موزعة على ملفات إكسل منفصلة بين 4 فرق مختلفة. الآن كل شيء في مكان واحد، وأصبح التحقق الخارجي يأخذ أيامًا بدل أسابيع."</div>
+      <div class="quote-author">— مدير الاستدامة، أحد المصانع الصناعية الكبرى في السعودية</div>
+    </div>
+  </div></div>
+
+  <!-- FINAL CTA -->
+  <div class="section-tight"><div class="container">
+    <div class="final-cta">
+      <div class="final-cta-title">جاهز تنظّم بيانات الاستدامة في مصنعك؟</div>
+      <div class="final-cta-sub">احجز عرضًا توضيحيًا مع فريقنا وشاهد كيف يمكن لبصمة تبسيط رحلتك بالكامل.</div>
+      <div class="final-cta-btns"><button class="btn btn-light" onclick="nav('login')">ابدأ الآن</button><button class="btn btn-ghost-light" onclick="nav('about')">طلب عرض توضيحي</button></div>
+    </div>
+  </div></div>
+</section><!-- /page-factories -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE: FOR INVESTORS
+═══════════════════════════════════════════ -->
+<section class="page" id="page-investors">
+
+<!-- INVESTOR HERO -->
+<div class="hero" style="padding-top:48px;background:linear-gradient(160deg,#0A1628 0%,#0F2040 60%,#132040 100%);">
+  <div class="container" style="text-align:center;padding-bottom:56px;">
+    <div class="eyebrow" style="display:inline-flex;background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.3);color:#A5B4FC;">🔍 منصة الاستثمار في الصناعة المسؤولة</div>
+    <div class="hero-h1" style="font-size:46px;color:#fff;margin-top:16px;">اكتشف المصانع الأكثر<br>استعدادًا <span style="color:#6EE7B7;">للمستقبل</span></div>
+    <div class="hero-sub" style="max-width:600px;margin:0 auto 32px;color:rgba(255,255,255,.82);">قارن بين المصانع بناءً على بيانات استدامة موثقة ومؤشرات أداء واضحة — واتخذ قراراتك الاستثمارية بثقة كاملة.</div>
+    <div class="hero-ctas" style="justify-content:center;">
+      <button class="btn btn-light" onclick="nav('login')">ابدأ الاستكشاف</button>
+      <button class="btn btn-ghost-light" onclick="nav('ai')">جرّب بصمة AI</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="section" style="padding-top:32px;"><div class="container">
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num">180+</div><div class="stat-label">مصنع وشركة صناعية موثقة</div></div>
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">قطاع صناعي مختلف</div></div>
+    <div class="stat-box"><div class="stat-num">94%</div><div class="stat-label">من المصانع موثقة خارجياً</div></div>
+    <div class="stat-box"><div class="stat-num">6</div><div class="stat-label">دول في المنطقة العربية</div></div>
+  </div>
+</div></div>
+
+<!-- SEARCH & FILTERS -->
+<div class="section-tight"><div class="container">
+  <div style="background:var(--card);border-radius:var(--r-2xl);padding:28px;box-shadow:var(--sh-lg);border:1px solid var(--ink100);">
+    <div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:16px;">🔍 ابحث عن المصانع</div>
+    <div style="background:var(--ink50);border:1.5px solid var(--ink200);border-radius:var(--r-xl);padding:14px 20px;font-size:14px;color:var(--ink400);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:18px;">🔍</span>
+      <span>ابحث باسم المصنع، القطاع، الموقع، أو شهادة الاستدامة...</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <select style="background:var(--card);border:1.5px solid var(--ink200);border-radius:var(--r-md);padding:8px 14px;font-family:var(--fm);font-size:13px;color:var(--ink700);direction:rtl;">
+        <option>القطاع الصناعي</option>
+        <option>صناعات غذائية</option>
+        <option>صناعة النسيج</option>
+        <option>الصلب والمعادن</option>
+        <option>الكيماويات</option>
+        <option>الإلكترونيات</option>
+        <option>التصنيع العام</option>
+      </select>
+      <select style="background:var(--card);border:1.5px solid var(--ink200);border-radius:var(--r-md);padding:8px 14px;font-family:var(--fm);font-size:13px;color:var(--ink700);direction:rtl;">
+        <option>الدولة / الموقع</option>
+        <option>مصر</option>
+        <option>السعودية</option>
+        <option>الإمارات</option>
+        <option>الأردن</option>
+      </select>
+      <select style="background:var(--card);border:1.5px solid var(--ink200);border-radius:var(--r-md);padding:8px 14px;font-family:var(--fm);font-size:13px;color:var(--ink700);direction:rtl;">
+        <option>درجة بصمة</option>
+        <option>90+ (ممتاز)</option>
+        <option>75–90 (جيد جداً)</option>
+        <option>60–75 (جيد)</option>
+      </select>
+      <select style="background:var(--card);border:1.5px solid var(--ink200);border-radius:var(--r-md);padding:8px 14px;font-family:var(--fm);font-size:13px;color:var(--ink700);direction:rtl;">
+        <option>حالة التحقق</option>
+        <option>✓ موثق خارجياً</option>
+        <option>قيد التحقق</option>
+      </select>
+      <select style="background:var(--card);border:1.5px solid var(--ink200);border-radius:var(--r-md);padding:8px 14px;font-family:var(--fm);font-size:13px;color:var(--ink700);direction:rtl;">
+        <option>مستوى المخاطر</option>
+        <option>منخفض</option>
+        <option>متوسط</option>
+        <option>مرتفع</option>
+      </select>
+      <button class="btn btn-primary btn-sm" style="margin-right:auto;">بحث</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- TOP RANKING -->
+<div class="section"><div class="container">
+  <div class="section-head">
+    <div class="section-eyebrow">🏆 التصنيف</div>
+    <div class="section-title">أفضل المصانع أداءً</div>
+    <div class="section-sub">مصانع حققت أعلى درجات بصمة بناءً على بيانات موثقة ومراجعة خارجية مستقلة</div>
+  </div>
+
+  <!-- RANK CARDS -->
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:40px;">
+
+    <!-- #1 -->
+    <div style="background:linear-gradient(135deg,var(--g900),var(--g800));border-radius:var(--r-xl);padding:20px 24px;display:flex;align-items:center;gap:20px;box-shadow:var(--sh-lg);">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA500);display:grid;place-items:center;font-size:18px;font-weight:900;color:#5D3A00;flex-shrink:0;font-family:var(--fmo);">1</div>
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;">شركة النيل للصناعات الغذائية</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);padding:3px 10px;border-radius:var(--r-full);">🍽 صناعات غذائية</span>
+          <span style="font-size:11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);padding:3px 10px;border-radius:var(--r-full);">📍 مصر</span>
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق خارجياً</span>
+          <span class="chip chip-ok" style="font-size:10px;">مخاطر منخفضة</span>
+        </div>
+      </div>
+      <div style="text-align:center;flex-shrink:0;">
+        <div style="font-family:var(--fmo);font-size:32px;font-weight:900;color:#6EE7B7;line-height:1;">94</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);">درجة بصمة</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+        <button class="btn btn-light btn-sm" onclick="nav('login')">عرض الملف</button>
+        <button class="btn btn-ghost-light btn-sm">مقارنة</button>
+      </div>
+    </div>
+
+    <!-- #2 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:20px 24px;display:flex;align-items:center;gap:20px;box-shadow:var(--sh-md);">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#E8E8E8,#C0C0C0);display:grid;place-items:center;font-size:18px;font-weight:900;color:#555;flex-shrink:0;font-family:var(--fmo);">2</div>
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:700;color:var(--ink900);margin-bottom:4px;">مصنع الرياض للصلب</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">⚙️ صلب ومعادن</span>
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">📍 السعودية</span>
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق</span>
+          <span class="chip chip-ok" style="font-size:10px;">مخاطر منخفضة</span>
+        </div>
+      </div>
+      <div style="text-align:center;flex-shrink:0;">
+        <div style="font-family:var(--fmo);font-size:32px;font-weight:900;color:var(--g600);line-height:1;">89</div>
+        <div style="font-size:10px;color:var(--ink400);">درجة بصمة</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+        <button class="btn btn-outline btn-sm" onclick="nav('login')">عرض الملف</button>
+        <button class="btn btn-outline btn-sm">مقارنة</button>
+      </div>
+    </div>
+
+    <!-- #3 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:20px 24px;display:flex;align-items:center;gap:20px;box-shadow:var(--sh-md);">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#F0C070,#C87820);display:grid;place-items:center;font-size:18px;font-weight:900;color:#5D3A00;flex-shrink:0;font-family:var(--fmo);">3</div>
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:700;color:var(--ink900);margin-bottom:4px;">مجموعة دلتا للنسيج</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">🧵 صناعة النسيج</span>
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">📍 مصر</span>
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق</span>
+          <span class="chip chip-warn" style="font-size:10px;">مخاطر متوسطة</span>
+        </div>
+      </div>
+      <div style="text-align:center;flex-shrink:0;">
+        <div style="font-family:var(--fmo);font-size:32px;font-weight:900;color:var(--g600);line-height:1;">85</div>
+        <div style="font-size:10px;color:var(--ink400);">درجة بصمة</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+        <button class="btn btn-outline btn-sm" onclick="nav('login')">عرض الملف</button>
+        <button class="btn btn-outline btn-sm">مقارنة</button>
+      </div>
+    </div>
+
+    <!-- #4 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);padding:20px 24px;display:flex;align-items:center;gap:20px;box-shadow:var(--sh-sm);">
+      <div style="width:44px;height:44px;border-radius:50%;background:var(--ink100);display:grid;place-items:center;font-size:16px;font-weight:700;color:var(--ink500);flex-shrink:0;font-family:var(--fmo);">4</div>
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:700;color:var(--ink900);margin-bottom:4px;">شركة الخليج للكيماويات</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">⚗️ كيماويات</span>
+          <span style="font-size:11px;background:var(--ink50);color:var(--ink500);padding:3px 10px;border-radius:var(--r-full);">📍 الإمارات</span>
+          <span class="chip chip-warn" style="font-size:10px;">⚠ تحقق جزئي</span>
+          <span class="chip chip-warn" style="font-size:10px;">مخاطر متوسطة</span>
+        </div>
+      </div>
+      <div style="text-align:center;flex-shrink:0;">
+        <div style="font-family:var(--fmo);font-size:32px;font-weight:900;color:var(--gold500);line-height:1;">79</div>
+        <div style="font-size:10px;color:var(--ink400);">درجة بصمة</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+        <button class="btn btn-outline btn-sm" onclick="nav('login')">عرض الملف</button>
+        <button class="btn btn-outline btn-sm">مقارنة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACTORY DISCOVERY CARDS -->
+  <div class="section-head" style="margin-top:20px;">
+    <div class="section-eyebrow">اكتشاف</div>
+    <div class="section-title">ملفات المصانع</div>
+    <div class="section-sub">بطاقات تفصيلية لكل مصنع — اعرض الملف الكامل أو أضفه للمقارنة</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+
+    <!-- CARD 1 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-md);">
+      <div style="height:6px;background:linear-gradient(90deg,var(--g400),var(--m400));"></div>
+      <div style="padding:20px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:5px;">شركة النيل للصناعات الغذائية</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:10px;background:var(--g50);color:var(--g700);padding:2px 8px;border-radius:var(--r-full);border:1px solid var(--g200);">🍽 غذائية</span>
+              <span style="font-size:10px;background:var(--ink50);color:var(--ink500);padding:2px 8px;border-radius:var(--r-full);">📍 مصر</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--fmo);font-size:26px;font-weight:900;color:var(--g600);line-height:1;">94</div>
+            <div style="font-size:9px;color:var(--ink400);">بصمة Score</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">الأداء البيئي</span><span style="color:var(--g600);font-weight:700;">ممتاز</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:94%;background:linear-gradient(90deg,var(--g400),var(--m400));border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">كفاءة الطاقة</span><span style="color:var(--g600);font-weight:700;">جيد جداً</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:82%;background:var(--g400);border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">إدارة المياه</span><span style="color:var(--g600);font-weight:700;">جيد</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:74%;background:var(--g300);border-radius:var(--r-full);"></div></div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق خارجياً</span>
+          <span class="chip chip-ok" style="font-size:10px;">مخاطر منخفضة</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="nav('login')">عرض الملف</button>
+          <button class="btn btn-outline btn-sm" style="padding:9px 14px;">مقارنة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-md);">
+      <div style="height:6px;background:linear-gradient(90deg,var(--g500),var(--g300));"></div>
+      <div style="padding:20px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:5px;">مصنع الرياض للصلب</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:10px;background:var(--g50);color:var(--g700);padding:2px 8px;border-radius:var(--r-full);border:1px solid var(--g200);">⚙️ صلب</span>
+              <span style="font-size:10px;background:var(--ink50);color:var(--ink500);padding:2px 8px;border-radius:var(--r-full);">📍 السعودية</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--fmo);font-size:26px;font-weight:900;color:var(--g600);line-height:1;">89</div>
+            <div style="font-size:9px;color:var(--ink400);">بصمة Score</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">الأداء البيئي</span><span style="color:var(--g600);font-weight:700;">جيد جداً</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:89%;background:linear-gradient(90deg,var(--g400),var(--m400));border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">كفاءة الطاقة</span><span style="color:var(--g600);font-weight:700;">ممتاز</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:91%;background:var(--g400);border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">إدارة المياه</span><span style="color:var(--ink400);font-weight:700;">مقبول</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:61%;background:#F2C94C;border-radius:var(--r-full);"></div></div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق خارجياً</span>
+          <span class="chip chip-ok" style="font-size:10px;">مخاطر منخفضة</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="nav('login')">عرض الملف</button>
+          <button class="btn btn-outline btn-sm" style="padding:9px 14px;">مقارنة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div style="background:var(--card);border:1px solid var(--ink100);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-md);">
+      <div style="height:6px;background:linear-gradient(90deg,#F2C94C,#F2994A);"></div>
+      <div style="padding:20px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:5px;">مجموعة دلتا للنسيج</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:10px;background:var(--g50);color:var(--g700);padding:2px 8px;border-radius:var(--r-full);border:1px solid var(--g200);">🧵 نسيج</span>
+              <span style="font-size:10px;background:var(--ink50);color:var(--ink500);padding:2px 8px;border-radius:var(--r-full);">📍 مصر</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--fmo);font-size:26px;font-weight:900;color:var(--gold500);line-height:1;">85</div>
+            <div style="font-size:9px;color:var(--ink400);">بصمة Score</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">الأداء البيئي</span><span style="color:var(--g600);font-weight:700;">جيد</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:85%;background:var(--g400);border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">كفاءة الطاقة</span><span style="color:var(--ink400);font-weight:700;">مقبول</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:68%;background:#F2C94C;border-radius:var(--r-full);"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--ink400);">إدارة المياه</span><span style="color:var(--g600);font-weight:700;">جيد</span></div>
+          <div style="height:4px;background:var(--ink100);border-radius:var(--r-full);"><div style="height:100%;width:77%;background:var(--g300);border-radius:var(--r-full);"></div></div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <span class="chip chip-ok" style="font-size:10px;">✓ موثق</span>
+          <span class="chip chip-warn" style="font-size:10px;">مخاطر متوسطة</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="nav('login')">عرض الملف</button>
+          <button class="btn btn-outline btn-sm" style="padding:9px 14px;">مقارنة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- AI MATCHING -->
+<div class="section-tight"><div class="container">
+  <div class="ai-card" style="border-radius:var(--r-2xl);padding:36px 40px;">
+    <div class="ai-pill">✨ بصمة AI — مطابقة ذكية للمستثمرين</div>
+    <div class="ai-title" style="font-size:22px;margin:14px 0 8px;">أخبر بصمة AI بهدفك الاستثماري — وستجد أفضل المصانع تلقائيًا</div>
+    <div class="ai-body" style="margin-bottom:20px;">سواء كان هدفك أقل مخاطر كربونية، أعلى كفاءة طاقة، جاهزية للتصدير، أو نمو طويل المدى — المطابقة الذكية تعطيك قائمة فورية بالمصانع الأنسب مع شرح الأسباب.</div>
+    <div class="ai-msg" style="margin-bottom:16px;">
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">مثال سؤال:</div>
+      <div style="color:rgba(255,255,255,.85);">اعرض أفضل المصانع منخفضة المخاطر في قطاع الأغذية</div>
+    </div>
+    <div class="ai-msg">
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">بصمة AI:</div>
+      <div style="color:rgba(255,255,255,.85);">وجدت لك <span class="ai-highlight">3 مصانع غذائية</span> بمخاطر منخفضة وتحقق خارجي مكتمل:<br>1. شركة النيل للصناعات الغذائية — بصمة Score 94 🏆<br>2. مصنع القاهرة للأغذية — بصمة Score 88<br>3. شركة سما للمأكولات — بصمة Score 82</div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:18px;position:relative;z-index:1;" onclick="nav('ai')">جرّب بصمة AI</button>
+  </div>
+</div></div>
+
+<!-- FINAL CTA -->
+<div class="section-tight"><div class="container">
+  <div class="final-cta">
+    <div class="final-cta-title">جاهز تستثمر بثقة وبيانات؟</div>
+    <div class="final-cta-sub">انضم إلى بصمة واستكشف أكثر من 180 مصنع وشركة صناعية موثقة في المنطقة العربية.</div>
+    <div class="final-cta-btns"><button class="btn btn-light" onclick="nav('login')">ابدأ الاستكشاف</button><button class="btn btn-ghost-light" onclick="nav('about')">تواصل معنا</button></div>
+  </div>
+</div></div>
+
+</section><!-- /page-investors -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: AI INTELLIGENCE
+═══════════════════════════════════════════ -->
+<section class="page" id="page-ai">
+  <div class="hero" style="padding-top:48px;background:linear-gradient(160deg,#002318 0%,#003D30 45%,var(--page) 80%);">
+    <div class="container" style="text-align:center;padding-bottom:48px;">
+      <div class="ai-pill" style="font-size:12px;padding:6px 16px;display:inline-flex;">✨ بصمة AI — مساعدك الذكي</div>
+      <div class="hero-h1" style="font-size:42px;margin-top:18px;color:#fff;">بصمة AI —<br><span style="color:var(--g300);">ذكاء يخدم المصانع والمستثمرين</span></div>
+      <div class="hero-sub" style="max-width:620px;margin:0 auto 28px;color:rgba(255,255,255,.78);">لست مضطرًا لتكون خبير ESG لتفهم أداءك البيئي. بصمة AI يحوّل بياناتك الصناعية إلى رؤى وتوصيات واضحة — لكل من المصانع والمستثمرين.</div>
+      <div class="hero-ctas" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="nav('login')">جرّب بصمة AI</button>
+        <button class="btn btn-outline" onclick="nav('factories')">شاهد أمثلة حقيقية</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- USE CASES -->
+  <div class="section"><div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">الاستخدامات</div>
+      <div class="section-title">بصمة AI — يخدم المصانع والمستثمرين معاً</div>
+      <div class="section-sub">قدرات متخصصة لكل طرف — المصانع تفهم بياناتها وتحسّن أداءها، والمستثمرون يكتشفون أفضل الفرص ويقيّمون المخاطر</div>
+    </div>
+    <div class="usecase-grid">
+      <div class="usecase-card"><div class="usecase-title">📈 تحليل الأداء</div><div class="usecase-desc">يتابع تطور مؤشراتك البيئية شهرًا بعد شهر، ويوضّح ما تحسّن وما يحتاج اهتمامًا.</div><div class="usecase-example">"كثافة الكربون انخفضت 4.2% هذا الشهر — أفضل أداء في آخر 6 أشهر."</div></div>
+      <div class="usecase-card"><div class="usecase-title">🔎 اكتشاف القيم غير المعتادة</div><div class="usecase-desc">يرصد أي تغييرات غير متوقعة في البيانات المُدخلة قبل اعتمادها، ويطلب توضيحًا.</div><div class="usecase-example">"استهلاك الطاقة في الوحدة أ أعلى بـ22% من المتوقع — هل هذا صحيح؟"</div></div>
+      <div class="usecase-card"><div class="usecase-title">⚠ فهم المخاطر</div><div class="usecase-desc">يفسّر ماذا تعني أرقامك بالنسبة لمخاطر الكربون والامتثال المستقبلي بلغة بسيطة.</div><div class="usecase-example">"كثافة الكربون الحالية تجعلك في فئة المخاطر المنخفضة — استمر على هذا المسار."</div></div>
+      <div class="usecase-card"><div class="usecase-title">💡 استخراج رؤى من التقارير</div><div class="usecase-desc">يقرأ تقاريرك الكاملة ويستخرج أهم النقاط في ملخص جاهز للإدارة أو المستثمرين.</div><div class="usecase-example">"3 نقاط رئيسية من تقرير H1 2026: تحسن الطاقة، ثبات المياه، تحدٍ في المخلفات."</div></div>
+      <div class="usecase-card"><div class="usecase-title">✨ مطابقة استثمارية ذكية</div><div class="usecase-desc">يساعد المستثمرين على إيجاد المصانع الأنسب لأهدافهم، مع شرح أسباب الترشيح.</div><div class="usecase-example">"هذا المصنع يطابق 94% من معايير 'أقل مخاطر كربونية' — بسبب انخفاض Scope 1."</div></div>
+      <div class="usecase-card"><div class="usecase-title">🛡 دعم عملية التحقق</div><div class="usecase-desc">يساعد المدققين على تحديد التناقضات بين البيانات والأدلة قبل المراجعة اليدوية.</div><div class="usecase-example">"معامل انبعاث الفحم المُدخل (2.26) يختلف عن شهادة المورّد (2.31) — يُنصح بالمراجعة."</div></div>
+    </div>
+  </div></div>
+
+  <!-- BIG AI EXAMPLE -->
+  <!-- CHATBOT UI -->
+<div class="section"><div class="container">
+  <div class="section-head">
+    <div class="section-eyebrow">تجربة تفاعلية</div>
+    <div class="section-title">تحدث مع بصمة AI</div>
+    <div class="section-sub">اسأل بالعربية — بصمة AI يفهمك ويجيبك بلغة واضحة</div>
+  </div>
+  <div style="background:linear-gradient(135deg,#001A12,#002D1E);border-radius:var(--r-2xl);padding:32px;border:1px solid rgba(0,153,102,.25);max-width:760px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:16px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--g400),var(--m400));display:grid;place-items:center;font-size:16px;flex-shrink:0;">🤖</div>
+      <div><div style="font-size:14px;font-weight:700;color:#fff;">بصمة AI</div><div style="font-size:11px;color:rgba(255,255,255,.4);">مساعد الاستدامة الذكي</div></div>
+      <div style="margin-right:auto;"><span class="ai-pill" style="font-size:10px;">متصل</span></div>
+    </div>
+
+    <!-- MSG 1 - USER (investor) -->
+    <div style="display:flex;justify-content:flex-start;margin-bottom:14px;">
+      <div style="background:rgba(255,255,255,.07);border-radius:14px 14px 14px 4px;padding:12px 16px;max-width:80%;font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;">
+        اعرض أفضل مصانع منخفضة المخاطر في قطاع الأغذية
+      </div>
+    </div>
+    <!-- AI RESPONSE -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+      <div style="background:linear-gradient(135deg,rgba(0,153,102,.25),rgba(12,184,154,.2));border:1px solid rgba(45,196,138,.2);border-radius:14px 14px 4px 14px;padding:14px 16px;max-width:85%;font-size:13px;color:rgba(255,255,255,.85);line-height:1.8;">
+        وجدت لك <span class="ai-highlight">3 مصانع غذائية</span> بمخاطر منخفضة وتحقق خارجي مكتمل:<br><br>
+        <strong style="color:#6EE7B7;">1. شركة النيل للصناعات الغذائية</strong> — بصمة 94 🏆 · مخاطر منخفضة<br>
+        <strong style="color:#6EE7B7;">2. مصنع القاهرة للأغذية</strong> — بصمة 88 · تحقق كامل<br>
+        <strong style="color:#6EE7B7;">3. شركة سما للمأكولات</strong> — بصمة 82 · مخاطر منخفضة<br><br>
+        هل تريد مقارنة تفصيلية بينهم؟
+      </div>
+    </div>
+
+    <!-- MSG 2 - USER (factory) -->
+    <div style="display:flex;justify-content:flex-start;margin-bottom:14px;">
+      <div style="background:rgba(255,255,255,.07);border-radius:14px 14px 14px 4px;padding:12px 16px;max-width:80%;font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;">
+        استهلاك الطاقة عندنا ارتفع 18% هذا الشهر — ما السبب المحتمل؟
+      </div>
+    </div>
+    <!-- AI RESPONSE -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+      <div style="background:linear-gradient(135deg,rgba(0,153,102,.25),rgba(12,184,154,.2));border:1px solid rgba(45,196,138,.2);border-radius:14px 14px 4px 14px;padding:14px 16px;max-width:85%;font-size:13px;color:rgba(255,255,255,.85);line-height:1.8;">
+        بناءً على بياناتك، الأسباب الأكثر احتمالاً هي:<br><br>
+        ⚠️ <span class="ai-highlight">ارتفاع درجات الحرارة</span> يزيد أحمال التبريد<br>
+        ⚠️ توقف غير مخطط في بعض المعدات يزيد الاستهلاك النوعي<br>
+        💡 أنصح بمراجعة سجلات الوحدة أ بين 15-20 من الشهر — هناك تركّز للزيادة.
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-xl);padding:12px 16px;display:flex;align-items:center;gap:10px;">
+      <span style="flex:1;font-size:13px;color:rgba(255,255,255,.3);">اسأل بصمة AI...</span>
+      <button class="btn btn-primary btn-sm" onclick="nav('login')" style="font-size:12px;padding:7px 14px;">إرسال</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="section-tight"><div class="container">
+    <div class="ai-card" style="padding:40px;">
+      <div class="ai-pill">✨ مثال حقيقي — تحليل تلقائي</div>
+      <div class="feature-row" style="margin-top:20px;align-items:center;">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:10px;position:relative;z-index:1;">انبعاثات Scope 1 — آخر 6 أشهر</div>
+          <div class="ai-chart-bars" style="height:100px;">
+            <div class="ai-bar" style="height:70%;"></div><div class="ai-bar" style="height:85%;"></div><div class="ai-bar" style="height:78%;"></div><div class="ai-bar" style="height:95%;"></div><div class="ai-bar highlight" style="height:62%;"></div><div class="ai-bar highlight" style="height:55%;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.4);position:relative;z-index:1;"><span>يناير</span><span>فبراير</span><span>مارس</span><span>أبريل</span><span>مايو</span><span>يونيو</span></div>
+        </div>
+        <div class="ai-msg" style="margin-top:0;">انخفضت <span class="ai-highlight">كثافة الانبعاثات بنسبة 15٪</span> مقارنة بالفترة السابقة، ويعود ذلك بشكل أساسي إلى تحسين كفاءة الفرن الرئيسي وزيادة استخدام الوقود البديل بنسبة 6%.<br><br>هذا التحسن يضع المصنع في المرتبة <span class="ai-highlight">الأولى</span> ضمن مقارنات المستثمرين لهذا الفصل.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- TRUST IN AI -->
+  <div class="section"><div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">الشفافية أولاً</div>
+      <div class="section-title">الذكاء الاصطناعي يفسّر، لا يقرر</div>
+      <div class="section-sub">كل تحليل واقتراح من الذكاء الاصطناعي يعتمد على بياناتك الموثّقة فقط — والقرار النهائي يبقى دائمًا في يد فريقك</div>
+    </div>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-icon">🔒</div><div class="value-title">بياناتك ملكك</div><div class="value-desc">التحليلات تعتمد فقط على بيانات مصنعك المُدخلة والمعتمدة</div></div>
+      <div class="value-card"><div class="value-icon">🧭</div><div class="value-title">اقتراح، لا قرار</div><div class="value-desc">الذكاء الاصطناعي يقترح ويشرح — والاعتماد النهائي بيد فريقك</div></div>
+      <div class="value-card"><div class="value-icon">📚</div><div class="value-title">مرجعية واضحة</div><div class="value-desc">كل رؤية مرتبطة بمصدر بيانات يمكن الرجوع إليه ومراجعته</div></div>
+      <div class="value-card"><div class="value-icon">🌐</div><div class="value-title">لغة عربية واضحة</div><div class="value-desc">شرح مبسّط بدون مصطلحات تقنية معقّدة لكل المستخدمين</div></div>
+    </div>
+  </div></div>
+
+  <!-- FINAL CTA -->
+  <div class="section-tight"><div class="container">
+    <div class="final-cta">
+      <div class="final-cta-title">جرّب الذكاء الاصطناعي مع بياناتك</div>
+      <div class="final-cta-sub">شاهد كيف يحوّل مساعد بصمة الذكي أرقامك إلى قرارات واضحة وقابلة للتنفيذ.</div>
+      <div class="final-cta-btns"><button class="btn btn-light" onclick="nav('login')">ابدأ الآن</button><button class="btn btn-ghost-light" onclick="nav('about')">طلب عرض توضيحي</button></div>
+    </div>
+  </div></div>
+</section><!-- /page-ai -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE: ABOUT
+═══════════════════════════════════════════ -->
+<section class="page" id="page-about">
+  <div class="hero" style="padding-top:48px;">
+    <div class="container" style="text-align:center;padding-bottom:48px;">
+      <div class="eyebrow" style="display:inline-flex;">عن بصمة</div>
+      <div class="hero-h1" style="font-size:42px;">نبني الجسر بين<br><span class="accent">الصناعة والاستثمار المستدام</span></div>
+      <div class="hero-sub" style="max-width:640px;margin:0 auto;">بصمة منصة سعودية-مصرية متخصصة في ذكاء ESG للقطاعات الصناعية، تأسست لحل مشكلة حقيقية: غياب بيانات بيئية موثوقة وقابلة للمقارنة في الصناعات الثقيلة.</div>
+    </div>
+  </div>
+
+  <div class="section-tight"><div class="container">
+    <div class="quote-card">
+      <div class="quote-text">"نؤمن أن الشفافية في بيانات الاستدامة ليست عبئًا تنظيميًا — بل ميزة تنافسية حقيقية تفتح أبوابًا جديدة للتمويل والشراكات."</div>
+      <div class="quote-author">— رسالة بصمة</div>
+    </div>
+  </div></div>
+
+  <div class="section"><div class="container">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">2024</div><div class="stat-label">سنة التأسيس</div></div>
+      <div class="stat-box"><div class="stat-num">25+</div><div class="stat-label">مصنع على المنصة</div></div>
+      <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">دولتان — مصر والسعودية</div></div>
+      <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">معايير دولية مدعومة</div></div>
+    </div>
+  </div></div>
+
+  <!-- VALUES -->
+  <div class="section"><div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">قيمنا</div>
+      <div class="section-title">المبادئ التي تبني كل قرار في بصمة</div>
+    </div>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="value-title">الشفافية</div><div class="value-desc">كل رقم له مصدر، وكل مصدر يمكن تتبعه والتحقق منه</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="value-title">المصداقية</div><div class="value-desc">التحقق الخارجي المستقل جزء أساسي من تجربتنا، لا إضافة اختيارية</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="value-title">التأثير المحلي</div><div class="value-desc">مصمَّمة خصيصًا لالصناعة عموماً في المنطقة العربية، بمعايير عالمية</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="value-title">الربط بين الأطراف</div><div class="value-desc">منصة واحدة تخدم المصانع، المدققين، والمستثمرين بعدالة وشفافية</div></div>
+    </div>
+  </div></div>
+
+  <!-- TIMELINE -->
+  <div class="section"><div class="container">
+    <div style="background:var(--g50);border-radius:var(--r-2xl);padding:56px 48px;">
+    <div class="section-head">
+      <div class="section-eyebrow">رحلتنا</div>
+      <div class="section-title">من فكرة إلى منصة قطاعية</div>
+    </div>
+    <div class="about-timeline">
+      <div class="about-tl-item"><div class="about-tl-dot"></div><div class="about-tl-year">2024</div><div class="about-tl-title">الانطلاقة — دراسة القطاع الصناعي</div><div class="about-tl-desc">بدأنا بدراسة عميقة لاحتياجات المصانع الصناعية في المنطقة العربية حول بيانات ESG ومتطلبات GHG Protocol وISO 14001.</div></div>
+      <div class="about-tl-item"><div class="about-tl-dot"></div><div class="about-tl-year">2025</div><div class="about-tl-title">إطلاق منصة المصانع</div><div class="about-tl-desc">أطلقنا النسخة الأولى من لوحات إدخال البيانات والتقارير لفرق الاستدامة، مع أول دفعة من المصانع الشريكة.</div></div>
+      <div class="about-tl-item"><div class="about-tl-dot"></div><div class="about-tl-year">2025</div><div class="about-tl-title">دخول التحقق الخارجي</div><div class="about-tl-desc">أضفنا بوابة مخصصة لجهات التحقق المستقلة، ليصبح كل تقرير قابلاً للتوثيق من طرف ثالث.</div></div>
+      <div class="about-tl-item"><div class="about-tl-dot" style="background:linear-gradient(135deg,var(--g500),var(--m400));"></div><div class="about-tl-year">2026</div><div class="about-tl-title">إطلاق منصة المستثمرين والذكاء الاصطناعي</div><div class="about-tl-desc">منصة اكتشاف ومقارنة للمستثمرين، مع مساعد ذكاء اصطناعي يشرح البيانات لجميع الأطراف.</div></div>
+    </div>
+    </div>
+  </div></div>
+
+  <!-- STANDARDS -->
+  <div class="section"><div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">المعايير المدعومة</div>
+      <div class="section-title">نبني على أساس معايير دولية معتمدة</div>
+    </div>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-icon" style="background:rgba(99,102,241,.08);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="value-title">GHG Protocol</div><div class="value-desc">حساب وإعداد تقارير انبعاثات Scope 1, 2, 3</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="value-title">ISO 50001</div><div class="value-desc">نظم إدارة الطاقة وكفاءة الاستهلاك</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10"/><path d="M12 8v4l3 3"/></svg></div><div class="value-title">GRI 302/303/306</div><div class="value-desc">معايير الإفصاح البيئي للطاقة، المياه، والمخلفات</div></div>
+      <div class="value-card"><div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="value-title">CBAM</div><div class="value-desc">جاهزية آلية تعديل الحدود الكربونية الأوروبية</div></div>
+    </div>
+  </div></div>
+
+  <!-- CONTACT -->
+  <div class="section-tight" id="contact-anchor"><div class="container">
+    <div class="final-cta">
+      <div class="final-cta-title">تواصل معنا</div>
+      <div class="final-cta-sub">سواء كنت مصنعًا، جهة تحقق، أو مستثمرًا — فريقنا جاهز لمساعدتك على البدء. اكتب لنا على hello@mostadam.com أو ابدأ تجربتك مباشرة.</div>
+      <div class="final-cta-btns"><button class="btn btn-light" onclick="nav('login')">ابدأ الآن</button><button class="btn btn-ghost-light" onclick="nav('home')">العودة للرئيسية</button></div>
+    </div>
+  </div></div>
+</section><!-- /page-about -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: LOGIN
+═══════════════════════════════════════════ -->
+<section class="page" id="page-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="nav-mark" style="width:48px;height:48px;font-size:22px;">🌿</div>
+        <div class="nav-brand" style="font-size:19px;">بصمة</div>
+      </div>
+      <div class="login-title">تسجيل الدخول</div>
+      <div class="login-sub">اختر نوع حسابك وادخل بياناتك للوصول إلى لوحتك</div>
+
+      <!-- ROLE SELECTOR -->
+      <div class="role-pills">
+        <button class="role-pill active" id="role-factory" onclick="selectRole('factory')">🏭 مصنع</button>
+        <button class="role-pill" id="role-auditor" onclick="selectRole('auditor')">🔍 جهة تحقق</button>
+        <button class="role-pill" id="role-investor" onclick="selectRole('investor')">📊 مستثمر</button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); doLogin();">
+        <div class="field-group">
+          <label class="field-label">البريد الإلكتروني</label>
+          <input type="email" class="field-input" placeholder="name@company.com" value="ahmed@example.com">
+        </div>
+        <div class="field-group">
+          <label class="field-label">كلمة المرور</label>
+          <input type="password" class="field-input" placeholder="••••••••" value="••••••••">
+        </div>
+        <div class="login-options">
+          <label style="display:flex;align-items:center;gap:6px;color:var(--ink400);"><input type="checkbox" checked style="accent-color:var(--g500);">تذكرني</label>
+          <span class="login-link">نسيت كلمة المرور؟</span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">تسجيل الدخول</button>
+      </form>
+
+      <div class="login-divider">أو</div>
+      <button class="btn btn-outline" style="width:100%;justify-content:center;margin-bottom:10px;" onclick="doLogin()">الدخول كزائر (تجريبي)</button>
+
+      <div style="text-align:center;font-size:12px;color:var(--ink400);margin-top:6px;">
+        ليس لديك حساب؟ <span class="login-link" onclick="nav('about')">تواصل معنا لطلب عرض توضيحي</span>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <span class="login-link" style="font-size:12px;color:var(--ink400);" onclick="nav('home')">← العودة للموقع الرئيسي</span>
+      </div>
+    </div>
+  </div>
+</section><!-- /page-login -->
+
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE: WORKSPACE SELECTION (hidden - not used in presentation)
+═══════════════════════════════════════════ -->
+<section class="page" id="page-workspace" style="display:none!important;">
+  <div class="workspace-wrap">
+    <div class="workspace-inner">
+      <div class="workspace-logo">
+        <div class="nav-mark" style="width:44px;height:44px;font-size:20px;background:linear-gradient(135deg,var(--g400),var(--m400));border-radius:12px;display:grid;place-items:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span style="font-size:22px;font-weight:800;color:var(--ink900);">بصمة</span>
+      </div>
+      <div class="workspace-title">مرحباً بك في بصمة</div>
+      <div class="workspace-sub">اختر مساحة العمل المناسبة لدورك — يمكنك تغييرها لاحقًا من الإعدادات</div>
+
+      <div class="ws-grid">
+
+        <div class="ws-card" id="ws-factory" onclick="selectWorkspace('factory')">
+          <div class="ws-icon" style="background:#E8FAF2;">
+            <svg viewBox="0 0 24 24" stroke="var(--g600)"><rect x="2" y="11" width="20" height="11" rx="1"/><path d="M6 11V6l4 3V6l4 3V6"/><path d="M2 22h20"/></svg>
+          </div>
+          <div class="ws-name">المصنع</div>
+          <div class="ws-desc">لوحة أداء بيئي شاملة</div>
+        </div>
+
+        <div class="ws-card" id="ws-dataowner" onclick="selectWorkspace('dataowner')">
+          <div class="ws-icon" style="background:#EFF6FF;">
+            <svg viewBox="0 0 24 24" stroke="#2563EB"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="ws-name">مالك البيانات</div>
+          <div class="ws-desc">إدخال واعتماد البيانات</div>
+        </div>
+
+        <div class="ws-card" id="ws-ehs" onclick="selectWorkspace('ehs')">
+          <div class="ws-icon" style="background:#F0FDF4;">
+            <svg viewBox="0 0 24 24" stroke="#16A34A"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="ws-name">مسؤول EHS</div>
+          <div class="ws-desc">متابعة الامتثال والتقارير</div>
+        </div>
+
+        <div class="ws-card" id="ws-auditor" onclick="selectWorkspace('auditor')">
+          <div class="ws-icon" style="background:#FFF7ED;">
+            <svg viewBox="0 0 24 24" stroke="#EA580C"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </div>
+          <div class="ws-name">جهة التحقق</div>
+          <div class="ws-desc">مراجعة وإصدار شهادات</div>
+        </div>
+
+        <div class="ws-card" id="ws-investor" onclick="selectWorkspace('investor')">
+          <div class="ws-icon" style="background:var(--gold100);">
+            <svg viewBox="0 0 24 24" stroke="var(--gold500)"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <div class="ws-name">المستثمر</div>
+          <div class="ws-desc">اكتشاف ومقارنة المصانع</div>
+        </div>
+
+      </div>
+
+      <div class="ws-hint">اضغط على الدور المناسب ثم تابع</div>
+      <button id="ws-continue-btn" class="btn btn-primary" onclick="continueToWorkspace()" disabled style="min-width:200px;justify-content:center;opacity:.5;cursor:not-allowed;">
+        تابع للوحة التحكم
+      </button>
+      <div style="margin-top:14px;">
+        <span style="font-size:12px;color:var(--ink400);cursor:pointer;" onclick="nav('login')">← العودة لتسجيل الدخول</span>
+      </div>
+    </div>
+  </div>
+</section><!-- /page-workspace -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE: DASHBOARD (post-login preview)
+═══════════════════════════════════════════ -->
+<section class="page" id="page-dashboard">
+  <div class="dash-shell">
+    <!-- SIDEBAR -->
+    <div class="dash-sb">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:20px;">
+        <div class="nav-mark">🌿</div>
+        <div style="color:#fff;font-weight:700;font-size:15px;">بصمة</div>
+      </div>
+      <div class="dash-sb-item active" id="dash-home-item">◈ الرئيسية</div>
+      <div class="dash-sb-item" id="dash-reports-item">📄 التقارير</div>
+      <div class="dash-sb-item" id="dash-evidence-item">📎 مركز الأدلة</div>
+      <div class="dash-sb-item" id="dash-ai-item">✨ المساعد الذكي</div>
+      <div class="dash-sb-item" id="dash-investors-item">📊 منصة المستثمرين</div>
+      <div style="margin-top:auto;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;">
+        <div class="dash-sb-item" onclick="nav('home')">↩ تسجيل خروج</div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="dash-main">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;">
+        <div>
+          <div style="font-size:22px;font-weight:700;color:var(--ink900);margin-bottom:4px;" id="dash-greeting">مرحبًا، أحمد 👋</div>
+          <div style="font-size:13px;color:var(--ink400);" id="dash-subtitle">هذه معاينة سريعة — في النسخة الكاملة ستجد كل لوحاتك التشغيلية هنا</div>
+        </div>
+        <div class="verify-badge">تجربة تفاعلية · Prototype</div>
+      </div>
+
+      <!-- CONTENT PER ROLE -->
+      <div id="dash-content-factory">
+        <div class="dash-kpi-grid">
+          <div class="dash-kpi"><div class="dash-kpi-label">الانبعاثات Scope 1</div><div class="dash-kpi-val">413.2</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">tCO₂e هذا الشهر</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">كفاءة الطاقة</div><div class="dash-kpi-val" style="color:var(--g600);">248</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">kWh/طن</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">تقدّم التقرير الفصلي</div><div class="dash-kpi-val" style="color:var(--m500);">82%</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">H1 2026</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">حالة التحقق</div><div style="margin-top:6px;"><span class="chip chip-ok">✓ موثق</span></div><div style="font-size:11px;color:var(--ink400);margin-top:8px;">Bureau Veritas</div></div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-pill">✨ مساعد الاستدامة الذكي</div>
+          <div class="ai-msg" style="margin-top:16px;">مرحبًا أحمد، تقرير الانبعاثات لشهر يونيو جاهز للمراجعة — <span class="ai-highlight">إجمالي Scope 1 انخفض 4.2%</span> مقارنة بمايو. هل تريد عرض التفاصيل أو إرساله للاعتماد؟</div>
+        </div>
+      </div>
+
+      <div id="dash-content-investor" style="display:none;">
+        <div class="dash-kpi-grid">
+          <div class="dash-kpi"><div class="dash-kpi-label">مصانع منخفضة المخاطر</div><div class="dash-kpi-val">12</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">من إجمالي 25 مصنع</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">مصانع موثقة ESG</div><div class="dash-kpi-val" style="color:var(--g600);">24</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">تحقق خارجي مستقل</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">متوسط كثافة الكربون</div><div class="dash-kpi-val" style="color:var(--m500);">0.75</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">tCO₂/طن للقطاع</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">أفضل أداء</div><div style="font-size:16px;font-weight:800;color:var(--ink900);margin-top:4px;">شركة النيل للصناعات الغذائية</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">92/100</div></div>
+        </div>
+        <div class="esg-factory-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div><div style="font-size:15px;font-weight:700;color:var(--ink900);margin-bottom:4px;">شركة النيل للصناعات الغذائية</div><div class="verify-badge">✓ موثق خارجياً</div></div>
+            <div class="score-ring-wrap"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--ink100)" stroke-width="5"/><circle cx="32" cy="32" r="26" fill="none" stroke="url(#dash-ring)" stroke-width="5" stroke-dasharray="163.4" stroke-dashoffset="14.7" stroke-linecap="round" transform="rotate(-90 32 32)"/><defs><linearGradient id="dash-ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#007A52"/><stop offset="100%" stop-color="#2DC48A"/></linearGradient></defs></svg><div class="score-inner"><div class="score-num" style="font-size:15px;color:var(--g600);">92</div><div class="score-denom">/100</div></div></div>
+          </div>
+          <div style="display:flex;gap:8px;"><span class="chip chip-ok">كثافة كربون: 0.58</span><span class="chip chip-ok">مخاطر منخفضة</span></div>
+        </div>
+      </div>
+
+      <div id="dash-content-auditor" style="display:none;">
+        <div class="dash-kpi-grid">
+          <div class="dash-kpi"><div class="dash-kpi-label">طلبات تحقق معلّقة</div><div class="dash-kpi-val">4</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">تحتاج مراجعتك</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">قيد المراجعة</div><div class="dash-kpi-val" style="color:var(--warn-txt);">1</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">مفتوح حالياً</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">تحقق مكتمل</div><div class="dash-kpi-val" style="color:var(--g600);">6</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">تقارير مُتحقَّق منها</div></div>
+          <div class="dash-kpi"><div class="dash-kpi-label">طلبات استكمال</div><div class="dash-kpi-val" style="color:var(--red-txt);">3</div><div style="font-size:11px;color:var(--ink400);margin-top:4px;">في انتظار الرد</div></div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-pill">✨ مساعد التحقق الذكي</div>
+          <div class="ai-msg" style="margin-top:16px;">معامل انبعاث الفحم المُدخل من <span class="ai-highlight">مصنع الخليج للكيماويات (2.26)</span> يختلف عن شهادة المورّد (2.31) — يُنصح بإرسال طلب استكمال قبل تأكيد التحقق.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;padding:16px 20px;background:var(--g50);border-radius:var(--r-lg);border:1px solid var(--g100);font-size:13px;color:var(--g700);text-align:center;">
+        💡 هذه معاينة تفاعلية للبروتوتايب — في النسخة الكاملة كل قسم بالشريط الجانبي يفتح لوحة عمل حقيقية بنفس هوية التصميم.
+      </div>
+    </div>
+  </div>
+</section><!-- /page-dashboard -->
+
+<!-- ═══════════════════════════════════════════
+     SHARED FOOTER (hidden on login/dashboard)
+═══════════════════════════════════════════ -->
+<footer class="site-footer" id="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo"><div class="nav-mark">🌿</div><div class="nav-brand">بصمة</div></div>
+        <div class="footer-brand-desc">منصة ذكاء ESG متخصصة في القطاع الصناعي — تربط المصانع، جهات التحقق، والمستثمرين في تجربة واحدة موثوقة وشفافة.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">المنصة</div>
+        <button class="footer-link" onclick="nav('how')">كيف تعمل بصمة</button>
+        <button class="footer-link" onclick="nav('factories')">المصانع</button>
+        <button class="footer-link" onclick="nav('investors')">المستثمرون</button>
+        <button class="footer-link" onclick="nav('ai')">بصمة AI</button>
+      </div>
+      <div>
+        <div class="footer-col-title">الشركة</div>
+        <button class="footer-link" onclick="nav('about')">عن بصمة</button>
+        <button class="footer-link" onclick="nav('about')">المعايير والشهادات</button>
+        <button class="footer-link" onclick="nav('about')">المدونة</button>
+        <button class="footer-link" onclick="nav('about')">تواصل معنا</button>
+      </div>
+      <div>
+        <div class="footer-col-title">قانوني</div>
+        <button class="footer-link" onclick="nav('about')">سياسة الخصوصية</button>
+        <button class="footer-link" onclick="nav('about')">الشروط والأحكام</button>
+        <button class="footer-link" onclick="nav('about')">أمن البيانات</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 بصمة — جميع الحقوق محفوظة</div>
+      <div style="display:flex;gap:16px;">
+        <span style="font-family:var(--fmo);font-size:10px;padding:2px 7px;border:1px solid rgba(99,102,241,.25);border-radius:3px;background:rgba(99,102,241,.08);color:#6366F1;">GHG Protocol</span>
+        <span style="font-family:var(--fmo);font-size:10px;padding:2px 7px;border:1px solid var(--g200);border-radius:3px;background:var(--g50);color:var(--g600);">ISO 50001</span>
+        <span style="font-family:var(--fmo);font-size:10px;padding:2px 7px;border:1px solid var(--ok-border);border-radius:3px;background:var(--ok-bg);color:var(--ok-txt);">GRI Standards</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+let currentRole = 'factory';
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function navMobile(pageId) {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+  nav(pageId);
+}
+
+function nav(pageId){
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // show target
+  const target = document.getElementById('page-' + pageId);
+  if(target) target.classList.add('active');
+
+  // update nav active state
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const navBtn = document.querySelector('.nav-link[data-page="' + pageId + '"]');
+  if(navBtn) navBtn.classList.add('active');
+
+  // hide navbar + footer on login/workspace/dashboard for focused feel
+  const navbar = document.querySelector('.navbar');
+  const footer = document.getElementById('site-footer');
+  if(pageId === 'login' || pageId === 'dashboard' || pageId === 'workspace'){
+    navbar.style.display = 'none';
+    footer.style.display = 'none';
+  } else {
+    navbar.style.display = 'flex';
+    footer.style.display = 'block';
+  }
+
+  window.scrollTo({top:0, behavior:'instant'});
+
+  // Hide float chat on non-public pages
+  const floatEl = document.getElementById('ai-float-btn');
+  const chatPanelEl = document.getElementById('ai-chat-panel');
+  if(floatEl){
+    const hidden = ['login','workspace','dashboard'];
+    floatEl.style.display = hidden.includes(pageId) ? 'none' : 'flex';
+    if(hidden.includes(pageId) && chatPanelEl) chatPanelEl.classList.remove('open');
+  }
+}
+
+let selectedWorkspace = null;
+
+function selectRole(role){
+  currentRole = role;
+  document.querySelectorAll('.role-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('role-' + role).classList.add('active');
+}
+
+function doLogin(){
+  // Show contact support overlay instead of proceeding
+  const overlay = document.getElementById('login-block-overlay');
+  if(overlay) overlay.style.display = 'flex';
+}
+
+function selectWorkspace(ws){
+  selectedWorkspace = ws;
+  // Deselect all cards
+  document.querySelectorAll('.ws-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('ws-' + ws).classList.add('selected');
+  // Enable continue button
+  const btn = document.getElementById('ws-continue-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+}
+
+function continueToWorkspace(){
+  if(!selectedWorkspace) return;
+  // Map workspace to dashboard role
+  const roleMap = {
+    factory: 'factory',
+    dataowner: 'factory',
+    ehs: 'factory',
+    auditor: 'auditor',
+    investor: 'investor'
+  };
+  currentRole = roleMap[selectedWorkspace];
+
+  const names = {
+    factory: 'أحمد', dataowner: 'م. نورة السعيد',
+    ehs: 'م. سعد الدوسري', auditor: 'م. نادر', investor: 'م. خالد'
+  };
+  const subtitles = {
+    factory: 'هذه معاينة لوحة مدير المصنع — في النسخة الكاملة ستجد كل أدوات إدارة الاستدامة هنا',
+    dataowner: 'هذه معاينة لوحة مالك البيانات — إدخال البيانات ومراجعتها واعتمادها',
+    ehs: 'هذه معاينة لوحة مسؤول EHS — متابعة الامتثال والتقارير والتنبيهات',
+    auditor: 'هذه معاينة بوابة التحقق الخارجي — راجع الأدلة وأصدر شهادات الاعتماد',
+    investor: 'هذه معاينة منصة المستثمرين — استكشف، قارن، واتخذ قراراتك بثقة'
+  };
+
+  // Show correct dashboard content
+  document.getElementById('dash-content-factory').style.display = currentRole === 'factory' ? 'block' : 'none';
+  document.getElementById('dash-content-investor').style.display = currentRole === 'investor' ? 'block' : 'none';
+  document.getElementById('dash-content-auditor').style.display = currentRole === 'auditor' ? 'block' : 'none';
+  document.getElementById('dash-greeting').textContent = 'مرحبًا، ' + (names[selectedWorkspace] || 'أحمد') + ' 👋';
+  document.getElementById('dash-subtitle').textContent = subtitles[selectedWorkspace] || subtitles.factory;
+
+  // Sidebar active
+  document.querySelectorAll('.dash-sb-item').forEach(i => i.classList.remove('active'));
+  if(currentRole === 'investor'){
+    document.getElementById('dash-investors-item').classList.add('active');
+  } else if(currentRole === 'auditor'){
+    document.getElementById('dash-evidence-item').classList.add('active');
+  } else {
+    document.getElementById('dash-home-item').classList.add('active');
+  }
+
+  // Reset workspace selection for next login
+  selectedWorkspace = null;
+  document.querySelectorAll('.ws-card').forEach(c => c.classList.remove('selected'));
+  const btn = document.getElementById('ws-continue-btn');
+  if(btn){ btn.disabled = true; btn.style.opacity = '.5'; btn.style.cursor = 'not-allowed'; }
+
+  nav('dashboard');
+}
+
+// dashboard sidebar items just bounce back to relevant marketing pages (prototype shortcut)
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('dash-reports-item').onclick = () => alert('📄 في النسخة الكاملة: مركز التقارير الكامل للمصنع');
+  document.getElementById('dash-evidence-item').onclick = () => alert('📎 في النسخة الكاملة: مركز الأدلة والمستندات الداعمة');
+  document.getElementById('dash-ai-item').onclick = () => alert('✨ في النسخة الكاملة: محادثة كاملة مع المساعد الذكي');
+  document.getElementById('dash-investors-item').onclick = () => alert('📊 في النسخة الكاملة: استكشاف ومقارنة كل مصانع القطاع');
+  document.getElementById('dash-home-item').onclick = () => doLogin();
+});
+</script>
+
+
+<!-- ════ FLOATING AI CHAT BUTTON ════ -->
+<div class="ai-float-btn" id="ai-float-btn">
+  <div id="ai-float-label" class="ai-float-label" style="display:none;">تحدث مع بصمة AI</div>
+  <button class="ai-float-main" onclick="toggleChat()" aria-label="افتح بصمة AI">
+    <div class="ai-float-badge"></div>
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  </button>
+</div>
+
+<!-- CHAT PANEL -->
+<div class="ai-chat-panel" id="ai-chat-panel">
+  <div class="chat-header">
+    <div class="chat-avatar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">بصمة AI</div>
+      <div class="chat-header-status"><span class="chat-online-dot"></span>متاح الآن — ردود فورية</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="msg ai">
+      <div class="msg-av">✦</div>
+      <div class="msg-bubble">أهلاً! أنا بصمة AI 🌿<br>كيف يمكنني مساعدتك اليوم؟ يمكنك سؤالي عن المنصة، ميزاتها، أو كيف تبدأ.</div>
+    </div>
+  </div>
+
+  <div class="chat-suggestions">
+    <button class="chat-suggest-btn" onclick="sendSuggest('ما هي ميزات بصمة للمصانع؟')">ميزات المصانع</button>
+    <button class="chat-suggest-btn" onclick="sendSuggest('كيف يتم التحقق من البيانات؟')">كيف يتم التحقق؟</button>
+    <button class="chat-suggest-btn" onclick="sendSuggest('هل المنصة مناسبة للمستثمرين؟')">للمستثمرين</button>
+    <button class="chat-suggest-btn" onclick="sendSuggest('كيف أبدأ الاشتراك؟')">كيف أبدأ؟</button>
+  </div>
+
+  <div class="chat-input-area">
+    <input class="chat-input" id="chat-input" placeholder="اكتب سؤالك..." dir="rtl" onkeydown="if(event.key==='Enter') sendChat()">
+    <button class="chat-send" onclick="sendChat()">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ── FLOATING CHAT ──
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const panel = document.getElementById('ai-chat-panel');
+  const label = document.getElementById('ai-float-label');
+  if (chatOpen) {
+    panel.classList.add('open');
+    label.style.display = 'none';
+  } else {
+    panel.classList.remove('open');
+  }
+}
+
+// Show label on hover after a moment
+const floatBtn = document.getElementById('ai-float-btn');
+if (floatBtn) {
+  setTimeout(() => {
+    const label = document.getElementById('ai-float-label');
+    if (label && !chatOpen) {
+      label.style.display = 'block';
+      setTimeout(() => { if(!chatOpen) label.style.display = 'none'; }, 3500);
+    }
+  }, 2000);
+}
+
+const aiReplies = {
+  'ميزات المصانع': 'بصمة تمنح المصانع لوحة تحكم شاملة لإدارة بيانات الاستدامة — الطاقة، الانبعاثات، المياه، والمخلفات — مع مسار اعتماد كامل ودعم للمعايير الدولية GHG وISO وGRI.',
+  'كيف يتم التحقق؟': 'التحقق يمر بـ 4 مراحل: إدخال البيانات → مراجعة داخلية → اعتماد EHS → تحقق خارجي مستقل. كل مرحلة موثقة وقابلة للمراجعة في أي وقت.',
+  'للمستثمرين': 'بلى! بصمة تتيح للمستثمرين اكتشاف ومقارنة المصانع بناءً على درجة بصمة ESG، مستوى المخاطر، والتحقق الخارجي — كل ذلك بياناً موثقاً وقابلاً للتحقق.',
+  'كيف أبدأ؟': 'سهل! اضغط "ابدأ الآن" في أي صفحة، أو تواصل معنا لطلب عرض توضيحي مخصص. فريقنا يساعدك على الإعداد خلال أسبوعين.',
+  'default': 'شكراً على سؤالك! للحصول على إجابة أكثر تفصيلاً، يمكنك التواصل مع فريقنا مباشرة عبر الضغط على "طلب عرض توضيحي" في الأعلى.'
+};
+
+function addMsg(text, role) {
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = role === 'ai' ? '✦' : 'أ';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.textContent = text;
+  div.appendChild(av);
+  div.appendChild(bubble);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  input.value = '';
+  setTimeout(() => {
+    const reply = aiReplies[text] || aiReplies['default'];
+    addMsg(reply, 'ai');
+  }, 600);
+}
+
+function sendSuggest(text) {
+  addMsg(text, 'user');
+  setTimeout(() => {
+    const reply = aiReplies[text] || aiReplies['default'];
+    addMsg(reply, 'ai');
+  }, 600);
+}
+</script>
+
+<!-- ════ LOGIN BLOCK OVERLAY ════ -->
+<div id="login-block-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:48px 40px;max-width:440px;width:90%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.2);">
+    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#007A52,#2DC48A);display:grid;place-items:center;margin:0 auto 20px;font-size:28px;">🌿</div>
+    <div style="font-size:22px;font-weight:800;color:#0A0F0D;margin-bottom:10px;font-family:'Cairo',sans-serif;">المنصة قيد الإطلاق</div>
+    <div style="font-size:14px;color:#6B7B73;line-height:1.8;margin-bottom:28px;font-family:'Cairo',sans-serif;">
+      بصمة حالياً في مرحلة الإطلاق التجريبي المحدود.<br>
+      للحصول على وصول مبكر، تواصل مع فريقنا.
+    </div>
+    <a href="mailto:hello@basma.ai" style="display:inline-flex;align-items:center;gap:8px;background:#007A52;color:#fff;border-radius:9999px;padding:13px 28px;font-weight:700;font-size:14px;font-family:'Cairo',sans-serif;text-decoration:none;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,90,61,0.25);">
+      ✉️ &nbsp;راسل فريق بصمة
+    </a>
+    <div style="margin-top:16px;">
+      <button onclick="document.getElementById('login-block-overlay').style.display='none';" style="background:none;border:none;color:#8A9990;font-size:13px;cursor:pointer;font-family:'Cairo',sans-serif;">
+        ← العودة للموقع
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
